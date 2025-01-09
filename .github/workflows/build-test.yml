@@ -1,0 +1,29 @@
+name: Spring boot build test
+
+on:
+  pull_request:
+    branches:
+      - Develop
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: ✔️ 리포지토리 가져오기
+        uses: actions/checkout@v4
+
+      - name: ✔️ JDK 17 설치
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+
+      - name: ✔️ Gradle 명령 실행 권한 설정
+        run: chmod +x gradlew
+
+      - name: ✔️ Gradle build
+        run: ./gradlew build -x installLocalGitHook -x test -x spotlessJava -x spotlessJavaApply -x spotlessJavaCheck -x spotlessMisc -x spotlessMiscApply -x spotlessMiscCheck -x spotlessCheck -x spotlessApply
+
+      - name: ✔️ Gradle test
+        run: ./gradlew --info test -Dspring.profiles.active=test
