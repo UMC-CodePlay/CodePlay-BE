@@ -2,6 +2,7 @@ plugins {
 	id 'java'
 	id 'org.springframework.boot' version '3.3.7'
 	id 'io.spring.dependency-management' version '1.1.7'
+	id 'com.diffplug.spotless' version '6.23.3'
 }
 
 group = 'umc'
@@ -24,15 +25,60 @@ repositories {
 }
 
 dependencies {
-//	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	compileOnly 'org.projectlombok:lombok'
-//	runtimeOnly 'com.mysql:mysql-connector-j'
 	annotationProcessor 'org.projectlombok:lombok'
+
+	//	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+	//	runtimeOnly 'com.mysql:mysql-connector-j'
+
+	implementation 'io.github.cdimascio:java-dotenv:5.2.2' // .env 사용
+	implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.2.0' // 스웨거 설정
+
+	// 테스트
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+	testImplementation 'io.rest-assured:rest-assured:5.3.1'
+	testRuntimeOnly 'com.h2database:h2'
 }
 
 tasks.named('test') {
 	useJUnitPlatform()
+}
+
+tasks.register('installLocalGitHook', Copy) {
+	from("${rootProject.rootDir}/.github/hooks")
+	into("${rootProject.rootDir}/.git/hooks")
+
+	eachFile {
+		mode = 0755
+	}
+
+	onlyIf {
+		!file("${rootProject.rootDir}/.git/hooks/pre-commit").exists()
+	}
+
+	doLast {
+		println 'pre-commit 훅이 성공적으로 설치되었습니다.'
+	}
+}
+
+spotless {
+	java {
+		googleJavaFormat().aosp() // Google Java 포맷 적용
+		importOrder()
+		removeUnusedImports() // 공백 2칸으로 들여쓰기
+		trimTrailingWhitespace()
+	}
+	format 'misc', {
+		target "*.gradle", "*.md", ".gitignore"
+		trimTrailingWhitespace()
+		indentWithTabs(1)
+	}
+}
+
+tasks.named('compileJava') {
+	dependsOn 'installLocalGitHook'
+	dependsOn 'spotlessApply'
 }

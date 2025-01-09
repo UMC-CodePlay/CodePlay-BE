@@ -1,0 +1,7 @@
+spring:
+  application:
+    name: codeplay
+
+  config:
+    import:
+      - optional:file:env/local-db.env[.properties]  # .env.properties ? ???? ?????
