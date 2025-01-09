@@ -1,7 +1,7 @@
 ---
 name: Feature Request
 about: Suggest a new feature for the project
-title: '[feature] '
+title: '[Feat] '
 labels: Feat
 assignees: ''
 
@@ -23,3 +23,4 @@ assignees: ''
 ## Must do
 - [ ] checked assignees
 - [ ] checked labels
+- [ ] checked Development (branch 와 이슈 연결)

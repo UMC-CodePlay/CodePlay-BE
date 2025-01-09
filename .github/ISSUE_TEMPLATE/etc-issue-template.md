@@ -1,8 +1,8 @@
 ---
-name: issue
-about: add additional issue
-title: '[tag] '
-labels: 
+name: Other Issue
+about: Feat, Bug 외 이슈
+title: '[Other] '
+labels:
 assignees: ''
 
 ---
@@ -15,3 +15,9 @@ assignees: ''
 - [ ] TODO
 - [ ] TODO
 - [ ] TODO
+
+
+## Must do
+- [ ] checked assignees
+- [ ] checked labels
+- [ ] checked Development (branch 와 이슈 연결)

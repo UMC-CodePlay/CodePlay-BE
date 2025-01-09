@@ -1,8 +1,8 @@
 ---
-name: Other Issue
-about: Report an issue that doesn't fit into other categories
-title: '[other] '
-labels: 
+name: Bug Report
+about: Report a bug to improve the project
+title: '[Bug] '
+labels: Bug
 assignees: ''
 
 ---
@@ -20,3 +20,9 @@ assignees: ''
 > 예상했던 정상적인 결과가 어떤 것이었는지 설명해주세요
 
 ## 참고할만한 자료(선택)
+
+
+## Must do
+- [ ] checked assignees
+- [ ] checked labels
+- [ ] checked Development (branch 와 이슈 연결)
