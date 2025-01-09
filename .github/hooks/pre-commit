@@ -1,17 +1,15 @@
 #!/bin/bash
 
-echo "Spotless를 사용하여 코드를 자동 포맷팅합니다..."
+echo "Spotless를 사용하여 코드를 자동 포맷팅합니다"
 
 # Spotless 적용
 if ./gradlew spotlessApply; then
-    echo "Spotless 포맷팅 적용 완료. 변경된 파일을 스테이징합니다..."
 
     # Spotless 적용 후 변경된 파일들을 다시 스테이징
     git diff --staged --name-only | while read -r file; do
         [ -f "$file" ] && git add "$file"
     done
 
-    echo "Spotless 자동 포맷팅이 성공적으로 완료되었습니다."
 else
     echo "Spotless 자동 포맷팅에 실패했습니다." >&2
     exit 1
