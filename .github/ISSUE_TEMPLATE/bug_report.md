@@ -1,3 +1,11 @@
+---
+name: Other Issue
+about: Report an issue that doesn't fit into other categories
+title: '[other] '
+labels: 
+assignees: ''
+
+---
 
 ## 어떤 버그인가요?
 
