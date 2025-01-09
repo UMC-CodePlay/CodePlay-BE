@@ -10,8 +10,6 @@ import org.springframework.test.context.ActiveProfiles;
 @ComponentScan(basePackages = "umc.codeplay")
 class CodeplayApplicationTests {
 
-	@Test
-	void contextLoads() {
-	}
-
+    @Test
+    void contextLoads() {}
 }
