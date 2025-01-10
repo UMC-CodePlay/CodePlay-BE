@@ -23,7 +23,7 @@ jobs:
         run: chmod +x gradlew
 
       - name: ✔️ Gradle build
-        run: ./gradlew build -x installLocalGitHook -x test -x spotlessJava -x spotlessJavaApply -x spotlessJavaCheck -x spotlessMisc -x spotlessMiscApply -x spotlessMiscCheck -x spotlessCheck -x spotlessApply
+        run: ./gradlew build -x installLocalGitHook -x spotlessInternalRegisterDependencies -x spotlessJava -x spotlessJavaApply -x spotlessApply -x spotlessJavaCheck -x spotlessCheck -x test
 
       - name: ✔️ Gradle test
         run: ./gradlew --info test -Dspring.profiles.active=test
