@@ -20,4 +20,3 @@ assignees: ''
 ## Must do
 - [ ] checked assignees
 - [ ] checked labels
-- [ ] checked Development (branch 와 이슈 연결)
