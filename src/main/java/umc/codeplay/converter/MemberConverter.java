@@ -6,16 +6,22 @@ import umc.codeplay.dto.MemberResponseDTO;
 
 public class MemberConverter {
 
-  public static Member toMember(MemberRequestDTO.JoinDto request) {
+    public static Member toMember(MemberRequestDTO.JoinDto request) {
 
-    return Member.builder()
-        .name(request.getName())
-        .email(request.getEmail())
-        .password(request.getPassword())
-        .build();
-  }
+        return Member.builder()
+                .name(request.getName())
+                .email(request.getEmail())
+                .password(request.getPassword())
+                .role(request.getRole())
+                .build();
+    }
 
-  public static MemberResponseDTO.JoinResultDTO toJoinResultDTO(Member member) {
-    return MemberResponseDTO.JoinResultDTO.builder().id(member.getId()).build();
-  }
+    public static MemberResponseDTO.JoinResultDTO toJoinResultDTO(Member member) {
+        return MemberResponseDTO.JoinResultDTO.builder().id(member.getId()).build();
+    }
+
+    public static MemberResponseDTO.LoginResultDTO toLoginResultDTO(String email, String token) {
+
+        return MemberResponseDTO.LoginResultDTO.builder().email(email).token(token).build();
+    }
 }

@@ -17,24 +17,24 @@ import umc.codeplay.service.MemberService;
 @RequiredArgsConstructor
 public class MemberViewController {
 
-  private final MemberService memberService;
+    private final MemberService memberService;
 
-  @GetMapping("/login")
-  public String login() {
-    return "login";
-  }
+    @GetMapping("/login")
+    public String login() {
+        return "login";
+    }
 
-  @GetMapping("/signup")
-  public String signup() {
-    return "signup";
-  }
+    @GetMapping("/signup")
+    public String signup() {
+        return "signup";
+    }
 
-  @PostMapping("/signup")
-  public String join(@RequestBody MemberRequestDTO.JoinDto request) {
-    Member member = memberService.joinMember(request);
-    MemberResponseDTO.JoinResultDTO newJoinResultDTO = MemberConverter.toJoinResultDTO(member);
-    // ApiResponse 세팅 필요.
-    // return ApiResponse.onSuccess(newJoinResultDTO);
-    return null;
-  }
+    @PostMapping("/signup")
+    public String join(@RequestBody MemberRequestDTO.JoinDto request) {
+        Member member = memberService.joinMember(request);
+        MemberResponseDTO.JoinResultDTO newJoinResultDTO = MemberConverter.toJoinResultDTO(member);
+        // ApiResponse 세팅 필요.
+        // return ApiResponse.onSuccess(newJoinResultDTO);
+        return null;
+    }
 }
