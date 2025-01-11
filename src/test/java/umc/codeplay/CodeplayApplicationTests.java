@@ -11,6 +11,6 @@ import org.junit.jupiter.api.Test;
 @ComponentScan(basePackages = "umc.codeplay")
 class CodeplayApplicationTests {
 
-  @Test
-  void contextLoads() {}
+    @Test
+    void contextLoads() {}
 }

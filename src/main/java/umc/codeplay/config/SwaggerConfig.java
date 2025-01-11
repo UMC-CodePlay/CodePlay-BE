@@ -13,33 +13,34 @@ import io.swagger.v3.oas.models.servers.Server;
 @Configuration
 public class SwaggerConfig {
 
-  @Bean
-  public OpenAPI CodePlayAPI() {
+    @Bean
+    public OpenAPI CodePlayAPI() {
 
-    Info info =
-        new Info()
-            .title("CodePlay Server API")
-            .description("UMC 7th Code Play Server API 문서")
-            .version("1.0");
+        Info info =
+                new Info()
+                        .title("CodePlay Server API")
+                        .description("UMC 7th Code Play Server API 문서")
+                        .version("1.0");
 
-    String securitySchemeName = "JWT TOKEN";
+        String securitySchemeName = "JWT TOKEN";
 
-    SecurityRequirement securityRequirement = new SecurityRequirement().addList(securitySchemeName);
+        SecurityRequirement securityRequirement =
+                new SecurityRequirement().addList(securitySchemeName);
 
-    Components components =
-        new Components()
-            .addSecuritySchemes(
-                securitySchemeName,
-                new SecurityScheme()
-                    .name(securitySchemeName)
-                    .type(SecurityScheme.Type.HTTP)
-                    .scheme("bearer")
-                    .bearerFormat("JWT"));
+        Components components =
+                new Components()
+                        .addSecuritySchemes(
+                                securitySchemeName,
+                                new SecurityScheme()
+                                        .name(securitySchemeName)
+                                        .type(SecurityScheme.Type.HTTP)
+                                        .scheme("bearer")
+                                        .bearerFormat("JWT"));
 
-    return new OpenAPI()
-        .addServersItem(new Server().url("/"))
-        .info(info)
-        .addSecurityItem(securityRequirement)
-        .components(components);
-  }
+        return new OpenAPI()
+                .addServersItem(new Server().url("/"))
+                .info(info)
+                .addSecurityItem(securityRequirement)
+                .components(components);
+    }
 }
