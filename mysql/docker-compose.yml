@@ -1,0 +1,15 @@
+name: CodePlayDB
+
+services:
+  mysql:
+    container_name: mysql
+    image: mysql:latest
+    ports:
+      - 3306:3306
+    volumes:
+      - data:/var/lib/mysql # Docker 볼륨 사용
+    env_file: .env
+    restart: always
+
+volumes:
+  data:
