@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 import lombok.RequiredArgsConstructor;
 
 import umc.codeplay.apiPayLoad.code.status.ErrorStatus;
-import umc.codeplay.apiPayLoad.exception.GeneralException;
+import umc.codeplay.apiPayLoad.exception.handler.GeneralHandler;
 import umc.codeplay.domain.Member;
 import umc.codeplay.repository.MemberRepository;
 
@@ -23,7 +23,7 @@ public class CustomUserDetailsService implements UserDetailsService {
         Member member =
                 memberRepository
                         .findByEmail(username)
-                        .orElseThrow(() -> new GeneralException(ErrorStatus.MEMBER_NOT_FOUND));
+                        .orElseThrow(() -> new GeneralHandler(ErrorStatus.MEMBER_NOT_FOUND));
 
         return org.springframework.security.core.userdetails.User.withUsername(member.getEmail())
                 .password(member.getPassword())

@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.*;
 import lombok.RequiredArgsConstructor;
 
 import umc.codeplay.apiPayLoad.ApiResponse;
+import umc.codeplay.apiPayLoad.code.status.ErrorStatus;
+import umc.codeplay.apiPayLoad.exception.handler.GeneralHandler;
 import umc.codeplay.converter.MemberConverter;
 import umc.codeplay.domain.Member;
 import umc.codeplay.dto.MemberRequestDTO;
@@ -37,15 +39,19 @@ public class AuthController {
                 new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword());
 
         // 실제 인증 수행
-        Authentication authentication = authenticationManager.authenticate(authToken);
+        try {
+            Authentication authentication = authenticationManager.authenticate(authToken);
 
-        // Role 정보 가져오기
-        Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
+            // Role 정보 가져오기
+            Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
 
-        // 인증에 성공했다면, JWT 토큰 생성 후 반환
-        String token = jwtUtil.generateToken(authentication.getName(), authorities);
-        return ApiResponse.onSuccess(
-                MemberConverter.toLoginResultDTO(request.getEmail(), token)); // 예시로 토큰만 문자열로 반환
+            // 인증에 성공했다면, JWT 토큰 생성 후 반환
+            String token = jwtUtil.generateToken(authentication.getName(), authorities);
+            return ApiResponse.onSuccess(
+                    MemberConverter.toLoginResultDTO(request.getEmail(), token)); // 예시로 토큰만 문자열로 반환
+        } catch (Exception e) {
+            throw new GeneralHandler(ErrorStatus.ID_OR_PASSWORD_WRONG);
+        }
     }
 
     @PostMapping("/signup")

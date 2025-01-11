@@ -19,7 +19,10 @@ public enum ErrorStatus implements BaseErrorCode {
     _FORBIDDEN(HttpStatus.FORBIDDEN, "COMMON403", "금지된 요청입니다."),
 
     MEMBER_NOT_FOUND(HttpStatus.BAD_REQUEST, "MEMBER400", "유저를 찾을 수 없습니다."),
-    MEMBER_ALREADY_EXISTS(HttpStatus.BAD_REQUEST, "MEMBER401", "유저가 이미 존재합니다.");
+    MEMBER_ALREADY_EXISTS(HttpStatus.BAD_REQUEST, "MEMBER401", "유저가 이미 존재합니다."),
+
+    NOT_AUTHORIZED(HttpStatus.BAD_REQUEST, "AUTH400", "인증되지 않은 요청입니다."),
+    ID_OR_PASSWORD_WRONG(HttpStatus.BAD_REQUEST, "AUTH401", "아이디 혹은 비밀번호가 잘못되었습니다.");
 
     private final HttpStatus httpStatus;
     private final String code;
