@@ -5,20 +5,24 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Component;
 
-import io.jsonwebtoken.*;
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.JwtException;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
 
 @Component
 public class JwtUtil {
 
-    // 숨겨야합니다
-    private final String SECRET_KEY = "thisisthesecretkeyverylongsecretkey";
+    private final String SECRET_KEY;
 
-    // 30분 만료
-    private final long EXPIRATION_TIME = 1000 * 60 * 30;
+    public JwtUtil(@Value("${JWT_SECRET}") String secretKey) {
+        this.SECRET_KEY = secretKey;
+    }
 
     private Key getSigningKey() {
         return Keys.hmacShaKeyFor(SECRET_KEY.getBytes());
@@ -34,6 +38,8 @@ public class JwtUtil {
                         .map(GrantedAuthority::getAuthority) // "ROLE_ADMIN" 등
                         .toList();
 
+        // 30분 만료
+        long EXPIRATION_TIME = 1000 * 60 * 30L;
         return Jwts.builder()
                 .setSubject(username) // 사용자 식별 정보
                 .setIssuedAt(now)
