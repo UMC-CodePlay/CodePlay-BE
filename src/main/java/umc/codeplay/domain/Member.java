@@ -11,6 +11,8 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import umc.codeplay.domain.enums.Role;
+
 @Entity
 @Getter
 @Builder
@@ -18,17 +20,19 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class Member {
 
-  @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
-  private Long id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-  private String name;
+    private String name;
 
-  private String password;
+    private String password;
 
-  private String email;
+    private String email;
 
-  public void encodePassword(String password) {
-    this.password = password;
-  }
+    private Role role;
+
+    public void encodePassword(String password) {
+        this.password = password;
+    }
 }

@@ -7,11 +7,20 @@ import lombok.NoArgsConstructor;
 
 public class MemberResponseDTO {
 
-  @Builder
-  @Getter
-  @NoArgsConstructor
-  @AllArgsConstructor
-  public static class JoinResultDTO {
-    Long id;
-  }
+    @Builder
+    @Getter
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class JoinResultDTO {
+        Long id;
+    }
+
+    @Builder
+    @Getter
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class LoginResultDTO {
+        String email;
+        String token;
+    }
 }

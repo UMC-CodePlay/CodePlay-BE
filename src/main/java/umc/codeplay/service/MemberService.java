@@ -5,6 +5,8 @@ import org.springframework.stereotype.Service;
 
 import lombok.RequiredArgsConstructor;
 
+import umc.codeplay.apiPayLoad.code.status.ErrorStatus;
+import umc.codeplay.apiPayLoad.exception.handler.GeneralHandler;
 import umc.codeplay.converter.MemberConverter;
 import umc.codeplay.domain.Member;
 import umc.codeplay.dto.MemberRequestDTO;
@@ -14,13 +16,17 @@ import umc.codeplay.repository.MemberRepository;
 @RequiredArgsConstructor
 public class MemberService {
 
-  private final MemberRepository memberRepository;
-  private final PasswordEncoder passwordEncoder;
+    private final MemberRepository memberRepository;
+    private final PasswordEncoder passwordEncoder;
 
-  public Member joinMember(MemberRequestDTO.JoinDto request) {
+    public Member joinMember(MemberRequestDTO.JoinDto request) {
 
-    Member newMember = MemberConverter.toMember(request);
-    newMember.encodePassword(passwordEncoder.encode(request.getPassword()));
-    return memberRepository.save(newMember);
-  }
+        if (memberRepository.findByEmail(request.getEmail()).isPresent()) {
+            throw new GeneralHandler(ErrorStatus.MEMBER_ALREADY_EXISTS);
+        }
+
+        Member newMember = MemberConverter.toMember(request);
+        newMember.encodePassword(passwordEncoder.encode(request.getPassword()));
+        return memberRepository.save(newMember);
+    }
 }
