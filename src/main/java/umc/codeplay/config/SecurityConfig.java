@@ -118,7 +118,8 @@ public class SecurityConfig {
                             null);
 
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-            response.setContentType(MediaType.APPLICATION_JSON_VALUE);
+            response.setContentType(MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8");
+            response.setCharacterEncoding("UTF-8");
 
             String jsonResponse = objectMapper.writeValueAsString(apiResponse);
             response.getWriter().write(jsonResponse);

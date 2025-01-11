@@ -62,4 +62,9 @@ public class AuthController {
 
         return ApiResponse.onSuccess(newJoinResult);
     }
+
+    //    @GetMapping("/test")
+    //    public ApiResponse<Void> test() {
+    //        return ApiResponse.onSuccess(null);
+    //    }
 }
