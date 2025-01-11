@@ -1,18 +1,20 @@
 spring:
   application:
     name: codeplay
-  datasource:
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/codeplay_test
-    username: spring
-    password: minmin8809!
-    sql:
-      init:
-        mode: never  # 데이터베이스 초기화 비활성화
 
   config:
     import:
-      - optional:file:env/local-db.env[.properties]  # .env.properties ? ???? ?????
+      - optional:file:env/local.env[.properties]
+
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: ${DB_URL}
+    username: ${MYSQL_USERNAME}
+    password: ${MYSQL_PASSWORD}
+
+    sql:
+      init:
+        mode: never  # 데이터베이스 초기화 비활성화
 
   jpa:
     hibernate:
