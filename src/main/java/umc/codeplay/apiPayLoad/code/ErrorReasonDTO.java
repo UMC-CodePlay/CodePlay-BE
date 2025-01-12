@@ -7,7 +7,7 @@ import lombok.Getter;
 
 @Getter
 @Builder
-public class ErrorReasonDTO { // ??
+public class ErrorReasonDTO {
 
     private HttpStatus httpStatus;
 
