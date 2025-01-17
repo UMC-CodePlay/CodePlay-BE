@@ -22,5 +22,6 @@ public class MemberResponseDTO {
     public static class LoginResultDTO {
         String email;
         String token;
+        String refreshToken;
     }
 }

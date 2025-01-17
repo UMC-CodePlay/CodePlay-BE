@@ -60,6 +60,7 @@ public class SecurityConfig {
                                 auth
                                         // 로그인, 회원가입 등 토큰 없이 접근해야 하는 API 허용
                                         .requestMatchers(
+                                                "/auth/refresh",
                                                 "/auth/signup",
                                                 "/auth/login",
                                                 "/v2/api-docs",
@@ -78,7 +79,8 @@ public class SecurityConfig {
                                         .authenticated())
                 // 폼 로그인 등 기본 기능 비활성화 (JWT 만 쓰려면)
                 .formLogin(Customizer.withDefaults())
-                // .formLogin(form -> form.disable()) // 더 엄격하게 폼 로그인 완전히 비활성화할 수도 있음
+                // .formLogin(form -> form.disable()) // 더 엄격하게
+                // 폼 로그인 완전히 비활성화할 수도 있음
                 .logout(AbstractHttpConfigurer::disable);
 
         // 커스텀 JWT 필터 추가

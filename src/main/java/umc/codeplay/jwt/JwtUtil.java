@@ -43,6 +43,7 @@ public class JwtUtil {
         return Jwts.builder()
                 .setSubject(username) // 사용자 식별 정보
                 .setIssuedAt(now)
+                .claim("type", "access")
                 .claim("roles", roleNames) // 발급 시간
                 .setExpiration(new Date(now.getTime() + EXPIRATION_TIME)) // 만료 시간
                 .signWith(getSigningKey(), SignatureAlgorithm.HS256) // 서명 (HS256 알고리즘)
@@ -73,7 +74,7 @@ public class JwtUtil {
     // 토큰 클레임 요청
     private Claims getAllClaimsFromToken(String token) {
         return Jwts.parserBuilder()
-                .setSigningKey(SECRET_KEY) // 서명 검증을 위한 키 설정
+                .setSigningKey(getSigningKey()) // 서명 검증을 위한 키 설정
                 .build()
                 .parseClaimsJws(token)
                 .getBody();
@@ -92,5 +93,33 @@ public class JwtUtil {
             return List.of(); // 빈 리스트 반환
         }
         return roles;
+    }
+
+    // JWT 리프레시 토큰 생성
+    public String generateRefreshToken(
+            String username, Collection<? extends GrantedAuthority> authorities) {
+        Date now = new Date();
+
+        List<String> roleNames =
+                authorities.stream()
+                        .map(GrantedAuthority::getAuthority) // "ROLE_ADMIN" 등
+                        .toList();
+
+        // 1일 만료
+        long EXPIRATION_TIME = 1000 * 60 * 60 * 24L;
+        return Jwts.builder()
+                .setSubject(username) // 사용자 식별 정보
+                .setIssuedAt(now)
+                .claim("type", "refresh")
+                .claim("roles", roleNames) // 역할 정보 추가
+                .setExpiration(new Date(now.getTime() + EXPIRATION_TIME)) // 만료 시간
+                .signWith(getSigningKey(), SignatureAlgorithm.HS256) // 서명 (HS256 알고리즘)
+                .compact();
+    }
+
+    // 토큰에서 type 추출
+    public String getTypeFromToken(String token) {
+        Claims claims = getAllClaimsFromToken(token);
+        return claims.get("type", String.class);
     }
 }

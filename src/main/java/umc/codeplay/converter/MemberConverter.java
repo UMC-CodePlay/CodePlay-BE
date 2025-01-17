@@ -20,8 +20,13 @@ public class MemberConverter {
         return MemberResponseDTO.JoinResultDTO.builder().id(member.getId()).build();
     }
 
-    public static MemberResponseDTO.LoginResultDTO toLoginResultDTO(String email, String token) {
+    public static MemberResponseDTO.LoginResultDTO toLoginResultDTO(
+            String email, String token, String refreshToken) {
 
-        return MemberResponseDTO.LoginResultDTO.builder().email(email).token(token).build();
+        return MemberResponseDTO.LoginResultDTO.builder()
+                .email(email)
+                .token(token)
+                .refreshToken(refreshToken)
+                .build();
     }
 }
