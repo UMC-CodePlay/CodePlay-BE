@@ -1,0 +1,29 @@
+spring:
+  application:
+    name: codeplay
+
+  config:
+    import:
+      - optional:file:env/local-spring.env[.properties]
+
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: ${DB_URL}
+    username: ${MYSQL_USERNAME}
+    password: ${MYSQL_PASSWORD}
+
+  sql:
+    init:
+      mode: never  # 데이터베이스 초기화 비활성화
+
+  jpa:
+    hibernate:
+      ddl-auto: update  # Hibernate 엔티티 스키마 자동 업데이트
+    properties:
+      jakarta.persistence.sharedCache.mode: ALL
+      hibernate:
+        dialect: org.hibernate.dialect.MySQLDialect
+        show_sql: true
+        format_sql: true
+        use_sql_comments: true
+        default_batch_fetch_size: 1000  # 배치 크기 설정 (성능 최적화)
