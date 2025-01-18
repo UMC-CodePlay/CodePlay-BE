@@ -1,15 +1,6 @@
 name: CodePlay
 
 services:
-  application:
-    container_name: codeplay-app
-    image: code-play-image:latest
-    env_file: prod-spring.env
-    ports:
-      - "8080:8080"
-    networks:
-      - umc_code_play
-
   database:
     container_name: codeplay-db
     image: mysql:latest
@@ -21,6 +12,29 @@ services:
     networks:
       - umc_code_play
     command: [ "--character-set-server=utf8mb4","--collation-server=utf8mb4_unicode_ci" ] # MySQL 서버가 실행될 때 사용할 문자셋 및 정렬 규칙 지정
+    restart: always
+    healthcheck:
+      test: [ "CMD", "mysqladmin", "ping", "-h", "localhost" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  application:
+    container_name: codeplay-app
+    image: code-play-image:latest
+    env_file: prod-spring.env
+    ports:
+      - "8080:8080"
+    networks:
+      - umc_code_play
+    restart: always
+    depends_on:
+      - database
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://localhost:8080/actuator/health" ]
+      interval: 20s
+      timeout: 10s
+      retries: 5
 
 networks:
   umc_code_play:
