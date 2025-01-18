@@ -12,13 +12,13 @@ spring:
     username: ${MYSQL_USERNAME}
     password: ${MYSQL_PASSWORD}
 
-    sql:
-      init:
-        mode: never  # 데이터베이스 초기화 비활성화
+  sql:
+    init:
+      mode: never  # 데이터베이스 초기화 비활성화
 
   jpa:
     hibernate:
-      ddl-auto: create  # Hibernate 엔티티 스키마 자동 업데이트
+      ddl-auto: update  # Hibernate 엔티티 스키마 자동 업데이트
     properties:
       jakarta.persistence.sharedCache.mode: ALL
       hibernate:
