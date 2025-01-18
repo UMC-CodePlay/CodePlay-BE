@@ -21,7 +21,7 @@ services:
 
   application:
     container_name: codeplay-app
-    image: code-play-image:latest
+    image: 120569606420.dkr.ecr.ap-northeast-2.amazonaws.com/umc/code-play:latest
     env_file: prod-spring.env
     ports:
       - "8080:8080"
@@ -31,7 +31,7 @@ services:
     depends_on:
       - database
     healthcheck:
-      test: [ "CMD", "curl", "-f", "http://localhost:8080/actuator/health" ]
+      test: [ "CMD", "curl", "-f", "http://localhost:8080/health" ]
       interval: 20s
       timeout: 10s
       retries: 5

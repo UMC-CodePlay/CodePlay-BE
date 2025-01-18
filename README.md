@@ -6,5 +6,6 @@
 
 ## ⚡️변경사항 확인 바람⚡️
 
+- [배포 과정 설명](https://github.com/UMC-CodePlay/CodePlay-BE/discussions/52)
 - [Docker를 이용한 DB 세팅 방법 확인하기](https://github.com/UMC-CodePlay/CodePlay-BE/discussions/28)
 - [자동 스타일 포맷터 사용법 바로가기](https://github.com/UMC-CodePlay/CodePlay-BE/discussions/3#discussioncomment-11796830)
