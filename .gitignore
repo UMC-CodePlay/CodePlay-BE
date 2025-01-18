@@ -4,7 +4,6 @@ build/
 !gradle/wrapper/gradle-wrapper.jar
 !**/src/main/**/build/
 !**/src/test/**/build/
-env/
 
 ### STS ###
 .apt_generated
@@ -42,3 +41,6 @@ out/
 .DS_Store
 .AppleDouble
 .LSOverride
+
+### aws 및 환경변수 정보 ###
+env/
