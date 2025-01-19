@@ -8,6 +8,10 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    env:
+      AWS_ACCESS_KEY_ID: dummy-key
+      AWS_SECRET_ACCESS_KEY: dummy-secret
+      AWS_DEFAULT_REGION: dummy-region
 
     steps:
       - name: ✔️ 리포지토리 가져오기
