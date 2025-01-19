@@ -8,6 +8,9 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    env:
+      AWS_ACCESS_KEY: dummy-key
+      AWS_SECRET_KEY: dummy-secret
 
     steps:
       - name: ✔️ 리포지토리 가져오기
