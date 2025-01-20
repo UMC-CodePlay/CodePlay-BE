@@ -20,4 +20,23 @@ fi
 echo "dangling 이미지 삭제"
 docker image prune -f
 
+echo "멈춘 container 삭제"
+docker container prune -f
+
+for i in {1..10}; do
+    if [ "$i" -eq 10 ]; then
+       echo "Health check failed"
+       docker compose down
+       exit 1
+    fi
+
+    if curl "http://localhost:8080/health"; then
+        echo "컨테이너가 정상적으로 실행되었습니다..."
+        break
+    fi
+
+    echo "spring boot application health check 중..."
+    sleep 15
+done
+
 echo "모든 작업이 완료되었습니다."

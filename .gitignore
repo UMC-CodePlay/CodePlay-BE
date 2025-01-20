@@ -41,3 +41,6 @@ out/
 .DS_Store
 .AppleDouble
 .LSOverride
+
+### aws 및 환경변수 정보 ###
+env/

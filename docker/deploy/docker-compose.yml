@@ -30,11 +30,6 @@ services:
     restart: always
     depends_on:
       - database
-    healthcheck:
-      test: [ "CMD", "curl", "-f", "http://localhost:8080/health" ]
-      interval: 20s
-      timeout: 10s
-      retries: 5
 
 networks:
   umc_code_play:
