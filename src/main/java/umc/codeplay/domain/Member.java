@@ -1,9 +1,6 @@
 package umc.codeplay.domain;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -35,4 +32,10 @@ public class Member {
     public void encodePassword(String password) {
         this.password = password;
     }
+
+    @Column(columnDefinition = "TEXT")
+    private String profileUrl;
+
+    //    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
+    //    private List<Like> likeList = new ArrayList<>();
 }
