@@ -9,6 +9,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import umc.codeplay.domain.enums.Role;
+import umc.codeplay.domain.enums.SocialStatus;
 
 @Entity
 @Getter
@@ -27,7 +28,11 @@ public class Member {
 
     private String email;
 
+    @Enumerated(EnumType.STRING)
     private Role role;
+
+    @Enumerated(EnumType.STRING)
+    private SocialStatus socialStatus;
 
     public void encodePassword(String password) {
         this.password = password;

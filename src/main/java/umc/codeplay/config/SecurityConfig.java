@@ -60,6 +60,7 @@ public class SecurityConfig {
                                 auth
                                         // 로그인, 회원가입 등 토큰 없이 접근해야 하는 API 허용
                                         .requestMatchers(
+                                                "/oauth/**",
                                                 "/health",
                                                 "/health/s3",
                                                 "/auth/refresh",
