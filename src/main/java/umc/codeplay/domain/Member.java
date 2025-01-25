@@ -1,11 +1,15 @@
 package umc.codeplay.domain;
 
+import java.util.ArrayList;
+import java.util.List;
 import jakarta.persistence.*;
 
 import lombok.*;
 
 import umc.codeplay.domain.enums.Role;
+import umc.codeplay.domain.mapping.MusicLike;
 import umc.codeplay.domain.enums.SocialStatus;
+
 
 @Entity
 @Getter
@@ -38,6 +42,6 @@ public class Member {
     @Column(columnDefinition = "TEXT")
     private String profileUrl;
 
-    //    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
-    //    private List<Like> likeList = new ArrayList<>();
+    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
+    private List<MusicLike> likeList = new ArrayList<>();
 }

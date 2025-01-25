@@ -29,7 +29,11 @@ public enum ErrorStatus implements BaseErrorCode {
     AUTHORIZATION_METHOD_ERROR(HttpStatus.BAD_REQUEST, "AUTH405", "인증 방식이 잘못되었습니다."),
     INVALID_OAUTH_PROVIDER(HttpStatus.BAD_REQUEST, "AUTH406", "유효하지 않은 OAuth 제공자입니다."),
 
-    AWS_SERVICE_UNAVAILABLE(HttpStatus.BAD_REQUEST, "AWS400", "AWS S3에 파일을 업로드할 수 없습니다.");
+    AWS_SERVICE_UNAVAILABLE(HttpStatus.BAD_REQUEST, "AWS400", "AWS S3에 파일을 업로드할 수 없습니다."),
+
+    MUSIC_NOT_FOUND(HttpStatus.BAD_REQUEST, "MUSIC400", "음원을 찾을 수 없습니다."),
+
+    LIKE_NOT_FOUND(HttpStatus.BAD_REQUEST, "LIKE400", "해당 좋아요를 찾을 수 없습니다.");
 
     private final HttpStatus httpStatus;
     private final String code;
