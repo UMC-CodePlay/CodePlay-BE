@@ -2,8 +2,6 @@ package umc.codeplay.dto;
 
 import lombok.Getter;
 
-import umc.codeplay.domain.enums.Role;
-
 public class MemberRequestDTO {
 
     @Getter
@@ -11,7 +9,6 @@ public class MemberRequestDTO {
         String name;
         String email;
         String password;
-        Role role;
     }
 
     @Getter
