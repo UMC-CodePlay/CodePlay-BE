@@ -25,7 +25,11 @@ public enum ErrorStatus implements BaseErrorCode {
     ID_OR_PASSWORD_WRONG(HttpStatus.BAD_REQUEST, "AUTH401", "아이디 혹은 비밀번호가 잘못되었습니다."),
     INVALID_REFRESH_TOKEN(HttpStatus.BAD_REQUEST, "AUTH402", "유효하지 않은 리프레시 토큰입니다."),
 
-    AWS_SERVICE_UNAVAILABLE(HttpStatus.BAD_REQUEST, "AWS400", "AWS S3에 파일을 업로드할 수 없습니다.");
+    AWS_SERVICE_UNAVAILABLE(HttpStatus.BAD_REQUEST, "AWS400", "AWS S3에 파일을 업로드할 수 없습니다."),
+
+    MUSIC_NOT_FOUND(HttpStatus.BAD_REQUEST, "MUSIC400", "음원을 찾을 수 없습니다."),
+
+    LIKE_NOT_FOUND(HttpStatus.BAD_REQUEST, "LIKE400", "해당 좋아요를 찾을 수 없습니다.");
 
     private final HttpStatus httpStatus;
     private final String code;
