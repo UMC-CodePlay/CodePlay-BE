@@ -24,6 +24,10 @@ public enum ErrorStatus implements BaseErrorCode {
     NOT_AUTHORIZED(HttpStatus.BAD_REQUEST, "AUTH400", "인증되지 않은 요청입니다."),
     ID_OR_PASSWORD_WRONG(HttpStatus.BAD_REQUEST, "AUTH401", "아이디 혹은 비밀번호가 잘못되었습니다."),
     INVALID_REFRESH_TOKEN(HttpStatus.BAD_REQUEST, "AUTH402", "유효하지 않은 리프레시 토큰입니다."),
+    OAUTH_TOKEN_REQUEST_FAILED(HttpStatus.BAD_REQUEST, "AUTH403", "외부인증 토큰 요청에 실패했습니다."),
+    OAUTH_USERINFO_REQUEST_FAILED(HttpStatus.BAD_REQUEST, "AUTH404", "외부인증 유저 정보 요청에 실패했습니다."),
+    AUTHORIZATION_METHOD_ERROR(HttpStatus.BAD_REQUEST, "AUTH405", "인증 방식이 잘못되었습니다."),
+    INVALID_OAUTH_PROVIDER(HttpStatus.BAD_REQUEST, "AUTH406", "유효하지 않은 OAuth 제공자입니다."),
 
     AWS_SERVICE_UNAVAILABLE(HttpStatus.BAD_REQUEST, "AWS400", "AWS S3에 파일을 업로드할 수 없습니다.");
 
