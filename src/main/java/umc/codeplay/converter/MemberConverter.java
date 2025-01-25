@@ -2,6 +2,7 @@ package umc.codeplay.converter;
 
 import umc.codeplay.domain.Member;
 import umc.codeplay.domain.enums.Role;
+import umc.codeplay.domain.enums.SocialStatus;
 import umc.codeplay.dto.MemberRequestDTO;
 import umc.codeplay.dto.MemberResponseDTO;
 
@@ -14,6 +15,7 @@ public class MemberConverter {
                 .email(request.getEmail())
                 .password(request.getPassword())
                 .role(Role.USER)
+                .socialStatus(SocialStatus.NONE)
                 .build();
     }
 

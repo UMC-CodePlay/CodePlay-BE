@@ -13,12 +13,12 @@ import org.springframework.web.bind.annotation.*;
 
 import lombok.RequiredArgsConstructor;
 
-import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import umc.codeplay.apiPayLoad.ApiResponse;
 import umc.codeplay.apiPayLoad.code.status.ErrorStatus;
 import umc.codeplay.apiPayLoad.exception.handler.GeneralHandler;
 import umc.codeplay.converter.MemberConverter;
 import umc.codeplay.domain.Member;
+import umc.codeplay.domain.enums.SocialStatus;
 import umc.codeplay.dto.MemberRequestDTO;
 import umc.codeplay.dto.MemberResponseDTO;
 import umc.codeplay.jwt.JwtUtil;
@@ -37,6 +37,10 @@ public class AuthController {
     @PostMapping("/login")
     public ApiResponse<MemberResponseDTO.LoginResultDTO> login(
             @RequestBody MemberRequestDTO.LoginDto request) {
+        if (memberService.getSocialStatus(request.getEmail()) != SocialStatus.NONE) {
+            throw new GeneralHandler(ErrorStatus.AUTHORIZATION_METHOD_ERROR);
+        }
+
         // 아이디/비밀번호를 사용해 AuthenticationToken 생성
         UsernamePasswordAuthenticationToken authToken =
                 new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword());
@@ -97,11 +101,5 @@ public class AuthController {
         } else {
             throw new GeneralHandler(ErrorStatus.INVALID_REFRESH_TOKEN);
         }
-    }
-
-    @SecurityRequirement(name = "JWT TOKEN")
-    @GetMapping("/test")
-    public ApiResponse<String> test() {
-        return ApiResponse.onSuccess("test");
     }
 }

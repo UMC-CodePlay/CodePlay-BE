@@ -33,16 +33,31 @@ public class MemberService {
     }
 
     public Member findOrCreateOAuthMember(String email, String name, SocialStatus socialStatus) {
-        return memberRepository
-                .findByEmail(email)
-                .orElseGet(
-                        () ->
-                                memberRepository.save(
-                                        Member.builder()
-                                                .email(email)
-                                                .name(name)
-                                                .role(Role.USER)
-                                                .socialStatus(socialStatus)
-                                                .build()));
+
+        Member member = memberRepository.findByEmail(email).orElse(null);
+
+        if (member == null) {
+            member =
+                    Member.builder()
+                            .email(email)
+                            .name(name)
+                            .role(Role.USER)
+                            .socialStatus(socialStatus)
+                            .build();
+            return memberRepository.save(member);
+        } else if (member.getSocialStatus() != socialStatus) {
+            throw new GeneralHandler(ErrorStatus.AUTHORIZATION_METHOD_ERROR);
+        } else {
+            return member;
+        }
+    }
+
+    public SocialStatus getSocialStatus(String email) {
+        Member member = memberRepository.findByEmail(email).orElse(null);
+        if (member == null) {
+            return SocialStatus.NONE;
+        } else {
+            return member.getSocialStatus();
+        }
     }
 }
