@@ -7,9 +7,8 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import umc.codeplay.domain.enums.Role;
-import umc.codeplay.domain.mapping.MusicLike;
 import umc.codeplay.domain.enums.SocialStatus;
-
+import umc.codeplay.domain.mapping.MusicLike;
 
 @Entity
 @Getter

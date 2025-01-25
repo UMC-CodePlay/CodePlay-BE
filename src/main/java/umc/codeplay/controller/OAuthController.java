@@ -7,6 +7,7 @@ import org.springframework.http.*;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.view.RedirectView;
@@ -28,6 +29,7 @@ import umc.codeplay.service.MemberService;
 @RestController
 @RequestMapping("/oauth")
 @RequiredArgsConstructor
+@Validated
 public class OAuthController {
 
     private final JwtUtil jwtUtil;
