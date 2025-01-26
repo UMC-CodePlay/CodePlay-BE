@@ -14,7 +14,6 @@ public class LikeResponseDTO {
     @AllArgsConstructor
     @NoArgsConstructor
     public static class addLikeResponseDTO {
-
         Long musicId;
         MusicLike like;
     }
@@ -24,7 +23,6 @@ public class LikeResponseDTO {
     @AllArgsConstructor
     @NoArgsConstructor
     public static class removeLikeResponseDTO {
-
         Long musicId;
     }
 }
