@@ -9,20 +9,20 @@ jobs:
   build:
     runs-on: ubuntu-latest
     env:
-      AWS_ACCESS_KEY_ID: "mock-aws-access-key-id"
-      AWS_SECRET_ACCESS_KEY: "mock-aws-secret-access-key"
-      AWS_DEFAULT_REGION: "mock-aws-region"
-      S3_BUCKET: "mock-s3-bucket-name"
-      JWT_SECRET: "mock-jwt-secret"
-      MYSQL_USERNAME: "mock-mysql-username"
-      MYSQL_PASSWORD: "mock-mysql-password"
-      DB_URL: "mock-db-url"
-      GOOGLE_CLIENT_ID: "mock-google-client-id"
-      GOOGLE_CLIENT_SECRET: "mock-google-client-secret"
-      GOOGLE_REDIRECT_URI: "mock-google-redirect-uri"
-      KAKAO_CLIENT_ID: "mock-kakao-client-id"
-      KAKAO_CLIENT_SECRET: "mock-kakao-client-secret"
-      KAKAO_REDIRECT_URI: "mock-kakao-redirect-uri"
+      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      AWS_DEFAULT_REGION: ${{ secrets.AWS_DEFAULT_REGION }}
+      S3_BUCKET: ${{ secrets.S3_BUCKET }}
+      JWT_SECRET: ${{ secrets.JWT_SECRET }}
+      MYSQL_USERNAME: ${{ secrets.MYSQL_USERNAME }}
+      MYSQL_PASSWORD: ${{ secrets.MYSQL_PASSWORD }}
+      DB_URL: ${{ secrets.DB_URL }}
+      GOOGLE_CLIENT_ID: ${{ secrets.GOOGLE_CLIENT_ID }}
+      GOOGLE_CLIENT_SECRET: ${{ secrets.GOOGLE_CLIENT_SECRET }}
+      GOOGLE_REDIRECT_URI: ${{ secrets.GOOGLE_REDIRECT_URI }}
+      KAKAO_CLIENT_ID: ${{ secrets.KAKAO_CLIENT_ID }}
+      KAKAO_CLIENT_SECRET: ${{ secrets.KAKAO_CLIENT_SECRET }}
+      KAKAO_REDIRECT_URI: ${{ secrets.KAKAO_REDIRECT_URI }}
 
     steps:
       - name: ✔️ 리포지토리 가져오기
