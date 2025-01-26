@@ -37,22 +37,22 @@ jobs:
       - name: ✔️ Gradle 명령 실행 권한 설정
         run: chmod +x gradlew
 
-      - name: 🔍 환경변수 로드 확인
+      - name: ✔️ Debugging Environment Variables
         run: |
-          echo "🔍 AWS_ACCESS_KEY_ID: ${AWS_ACCESS_KEY_ID:+SET}"
-          echo "🔍 AWS_SECRET_ACCESS_KEY: ${AWS_SECRET_ACCESS_KEY:+SET}"
-          echo "🔍 AWS_DEFAULT_REGION: ${AWS_DEFAULT_REGION:+SET}"
-          echo "🔍 S3_BUCKET: ${S3_BUCKET:+SET}"
-          echo "🔍 JWT_SECRET: ${JWT_SECRET:+SET}"
-          echo "🔍 MYSQL_USERNAME: ${MYSQL_USERNAME:+SET}"
-          echo "🔍 MYSQL_PASSWORD: ${MYSQL_PASSWORD:+SET}"
-          echo "🔍 DB_URL: ${DB_URL:+SET}"
-          echo "🔍 GOOGLE_CLIENT_ID: ${GOOGLE_CLIENT_ID:+SET}"
-          echo "🔍 GOOGLE_CLIENT_SECRET: ${GOOGLE_CLIENT_SECRET:+SET}"
-          echo "🔍 GOOGLE_REDIRECT_URI: ${GOOGLE_REDIRECT_URI:+SET}"
-          echo "🔍 KAKAO_CLIENT_ID: ${KAKAO_CLIENT_ID:+SET}"
-          echo "🔍 KAKAO_CLIENT_SECRET: ${KAKAO_CLIENT_SECRET:+SET}"
-          echo "🔍 KAKAO_REDIRECT_URI: ${KAKAO_REDIRECT_URI:+SET}"
+          echo "🔍 AWS_ACCESS_KEY_ID: $AWS_ACCESS_KEY_ID"
+          echo "🔍 AWS_SECRET_ACCESS_KEY: $AWS_SECRET_ACCESS_KEY"
+          echo "🔍 AWS_DEFAULT_REGION: $AWS_DEFAULT_REGION"
+          echo "🔍 S3_BUCKET: $S3_BUCKET"
+          echo "🔍 JWT_SECRET: $JWT_SECRET"
+          echo "🔍 MYSQL_USERNAME: $MYSQL_USERNAME"
+          echo "🔍 MYSQL_PASSWORD: $MYSQL_PASSWORD"
+          echo "🔍 DB_URL: $DB_URL"
+          echo "🔍 GOOGLE_CLIENT_ID: $GOOGLE_CLIENT_ID"
+          echo "🔍 GOOGLE_CLIENT_SECRET: $GOOGLE_CLIENT_SECRET"
+          echo "🔍 GOOGLE_REDIRECT_URI: $GOOGLE_REDIRECT_URI"
+          echo "🔍 KAKAO_CLIENT_ID: $KAKAO_CLIENT_ID"
+          echo "🔍 KAKAO_CLIENT_SECRET: $KAKAO_CLIENT_SECRET"
+          echo "🔍 KAKAO_REDIRECT_URI: $KAKAO_REDIRECT_URI"
 
       - name: ✔️ Gradle build
         run: ./gradlew build -x installLocalGitHook -x spotlessInternalRegisterDependencies -x spotlessJava -x spotlessJavaApply -x spotlessApply -x spotlessJavaCheck -x spotlessCheck -x test
