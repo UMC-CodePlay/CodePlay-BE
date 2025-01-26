@@ -15,3 +15,38 @@ spring:
       hibernate:
         dialect: org.hibernate.dialect.H2Dialect
         ddl-auto: create-drop
+
+cloud:
+  aws:
+    s3:
+      bucket: ${S3_BUCKET}
+    region:
+      static: ${AWS_DEFAULT_REGION}
+    credentials:
+      accessKey: ${AWS_ACCESS_KEY_ID}
+      secretKey: ${AWS_SECRET_ACCESS_KEY}
+
+jwt:
+  secret: ${JWT_SECRET}
+
+google:
+  oauth2:
+    client-id: ${GOOGLE_CLIENT_ID}
+    client-secret: ${GOOGLE_CLIENT_SECRET}
+    redirect-uri: ${GOOGLE_REDIRECT_URI}
+    scope: "openid email profile"
+    authorization-uri: "https://accounts.google.com/o/oauth2/v2/auth"
+    token-uri: "https://oauth2.googleapis.com/token"
+    user-info-uri: "https://openidconnect.googleapis.com/v1/userinfo"
+    additional-parameters: "&access_type=offline&prompt=consent" # refresh token / 동의화면 매번 요청
+
+kakao:
+  oauth2:
+    client-id: ${KAKAO_CLIENT_ID}
+    client-secret: ${KAKAO_CLIENT_SECRET}
+    redirect-uri: ${KAKAO_REDIRECT_URI}
+    scope: "profile_nickname,account_email"
+    authorization-uri: "https://kauth.kakao.com/oauth/authorize"
+    token-uri: "https://kauth.kakao.com/oauth/token"
+    user-info-uri: "https://kapi.kakao.com/v2/user/me"
+    additional-parameters: ""
