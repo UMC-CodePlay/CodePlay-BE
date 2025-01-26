@@ -26,6 +26,9 @@ public class Music extends BaseEntity {
     @JoinColumn(name = "member_id")
     private Member member;
 
+    @Column(columnDefinition = "TEXT")
+    private String musicUrl;
+
     @OneToMany(mappedBy = "music", cascade = CascadeType.ALL)
     private List<MusicLike> likeList = new ArrayList<>();
 }
