@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service;
 
 import lombok.RequiredArgsConstructor;
 
-import software.amazon.awssdk.http.SdkHttpMethod;
 import software.amazon.awssdk.services.s3.model.GetObjectRequest;
 import software.amazon.awssdk.services.s3.model.PutObjectRequest;
 import software.amazon.awssdk.services.s3.presigner.S3Presigner;
@@ -45,47 +44,53 @@ public class FileService {
     // 특수 문자나 공백 등을 정리
     private static String sanitizeFileName(String fileName) {
         String normalizedFileName = Normalizer.normalize(fileName, Normalizer.Form.NFC);
-        return normalizedFileName.replaceAll("\\s+", "_").replaceAll("[^a-zA-Z0-9.\\-_]", "");
-    }
-
-    // 파일 업로드(HTTP PUT) 또는 다운로드(HTTP GET)를 위한 Presigned URL 생성
-    public String generatePreSignedUrl(String fileName, SdkHttpMethod method) {
-
-        return switch (method) {
-            case GET -> generateGetPresignedUrl(fileName);
-            case PUT -> generatePutPresignedUrl(fileName);
-            default -> throw new GeneralHandler(ErrorStatus.AWS_SERVICE_UNAVAILABLE);
-        };
+        System.out.println(normalizedFileName);
+        return normalizedFileName.replaceAll("\\s+", "_").replaceAll("[^가-힣a-zA-Z0-9.\\-_]", "_");
     }
 
     // S3에서 파일을 다운로드할 수 있는 Presigned URL 생성
-    private String generateGetPresignedUrl(String fileName) {
-        GetObjectRequest getObjectRequest =
-                GetObjectRequest.builder().bucket(bucketName).key(fileName).build();
+    public String generateGetPresignedUrl(Long musicId) {
+        try {
+            Music music =
+                    musicRepository
+                            .findById(musicId)
+                            .orElseThrow(() -> new GeneralHandler(ErrorStatus.MUSIC_NOT_FOUND));
 
-        GetObjectPresignRequest presignRequest =
-                GetObjectPresignRequest.builder()
-                        .signatureDuration(Duration.ofMinutes(60))
-                        .getObjectRequest(getObjectRequest)
-                        .build();
+            GetObjectRequest getObjectRequest =
+                    GetObjectRequest.builder().bucket(bucketName).key(music.getTitle()).build();
 
-        PresignedGetObjectRequest presignedRequest = s3Presigner.presignGetObject(presignRequest);
-        return presignedRequest.url().toString();
+            GetObjectPresignRequest presignRequest =
+                    GetObjectPresignRequest.builder()
+                            .signatureDuration(Duration.ofMinutes(60))
+                            .getObjectRequest(getObjectRequest)
+                            .build();
+
+            PresignedGetObjectRequest presignedRequest =
+                    s3Presigner.presignGetObject(presignRequest);
+            return presignedRequest.url().toString();
+        } catch (Exception e) {
+            throw new GeneralHandler(ErrorStatus.AWS_SERVICE_UNAVAILABLE);
+        }
     }
 
     // S3에 파일을 업로드할 수 있는 Presigned URL 생성
-    private String generatePutPresignedUrl(String fileName) {
-        PutObjectRequest putObjectRequest =
-                PutObjectRequest.builder().bucket(bucketName).key(fileName).build();
+    public String generatePutPresignedUrl(String fileName) {
+        try {
+            PutObjectRequest putObjectRequest =
+                    PutObjectRequest.builder().bucket(bucketName).key(fileName).build();
 
-        PutObjectPresignRequest presignRequest =
-                PutObjectPresignRequest.builder()
-                        .signatureDuration(Duration.ofMinutes(60))
-                        .putObjectRequest(putObjectRequest)
-                        .build();
+            PutObjectPresignRequest presignRequest =
+                    PutObjectPresignRequest.builder()
+                            .signatureDuration(Duration.ofMinutes(60))
+                            .putObjectRequest(putObjectRequest)
+                            .build();
 
-        PresignedPutObjectRequest presignedRequest = s3Presigner.presignPutObject(presignRequest);
-        return presignedRequest.url().toString();
+            PresignedPutObjectRequest presignedRequest =
+                    s3Presigner.presignPutObject(presignRequest);
+            return presignedRequest.url().toString();
+        } catch (Exception e) {
+            throw new GeneralHandler(ErrorStatus.AWS_SERVICE_UNAVAILABLE);
+        }
     }
 
     // music 레포지토리에 업로드

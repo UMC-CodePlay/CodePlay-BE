@@ -6,7 +6,6 @@ import org.springframework.web.bind.annotation.*;
 import lombok.RequiredArgsConstructor;
 
 import io.swagger.v3.oas.annotations.Operation;
-import software.amazon.awssdk.http.SdkHttpMethod;
 import umc.codeplay.apiPayLoad.ApiResponse;
 import umc.codeplay.dto.FileResponseDTO;
 import umc.codeplay.service.FileService;
@@ -25,10 +24,9 @@ public class FileController {
             description = "다운로드를 위한 Presigned URL 생성 - 유효시간 존재")
     @GetMapping("/download")
     public ApiResponse<FileResponseDTO.DownloadFile> getUrl(
-            @RequestParam(value = "fileName") String fileName) {
-        String downloadUrl = fileService.generatePreSignedUrl(fileName, SdkHttpMethod.GET);
+            @RequestParam(value = "musicId") Long musicId) {
+        String downloadUrl = fileService.generateGetPresignedUrl(musicId);
         FileResponseDTO.DownloadFile result = new FileResponseDTO.DownloadFile(downloadUrl);
-
         return ApiResponse.onSuccess(result);
     }
 
@@ -38,11 +36,13 @@ public class FileController {
     @PostMapping("/upload")
     public ApiResponse<FileResponseDTO.UploadFile> generateUrl(
             @RequestParam(value = "fileName") String fileName) {
+
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
         String newFileName = buildFilename(fileName);
+        System.out.println(newFileName);
         Long musicId = fileService.uploadMusic(newFileName, username);
 
-        String uploadUrl = fileService.generatePreSignedUrl(newFileName, SdkHttpMethod.PUT);
+        String uploadUrl = fileService.generatePutPresignedUrl(newFileName);
         FileResponseDTO.UploadFile result = new FileResponseDTO.UploadFile(uploadUrl, musicId);
         return ApiResponse.onSuccess(result);
     }

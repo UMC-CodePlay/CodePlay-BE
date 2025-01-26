@@ -30,10 +30,6 @@ public enum ErrorStatus implements BaseErrorCode {
     INVALID_OAUTH_PROVIDER(HttpStatus.BAD_REQUEST, "AUTH406", "유효하지 않은 OAuth 제공자입니다."),
 
     AWS_SERVICE_UNAVAILABLE(HttpStatus.BAD_REQUEST, "AWS400", "AWS S3에 파일을 업로드할 수 없습니다."),
-    AWS_METHOD_NOT_ALLOWED(
-            HttpStatus.METHOD_NOT_ALLOWED,
-            "AWS405",
-            "AWS S3 presigned url에서 해당 method는 허용되지 않습니다."),
 
     MUSIC_NOT_FOUND(HttpStatus.BAD_REQUEST, "MUSIC400", "음원을 찾을 수 없습니다."),
 
