@@ -45,7 +45,7 @@ dependencies {
     testRuntimeOnly 'com.h2database:h2'
 
     // 스웨거
-    implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.3.0'
+    implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.4.0'
 
     // 스프링 시큐리티
     implementation 'org.springframework.boot:spring-boot-starter-security'
@@ -58,6 +58,13 @@ dependencies {
 
     // validation
     implementation 'org.springframework.boot:spring-boot-starter-validation'
+
+    // s3
+    implementation(platform("io.awspring.cloud:spring-cloud-aws-dependencies:3.1.1"))
+    implementation("io.awspring.cloud:spring-cloud-aws-starter-s3")
+
+    // oauth2
+    implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
 }
 
 tasks.named('test') {

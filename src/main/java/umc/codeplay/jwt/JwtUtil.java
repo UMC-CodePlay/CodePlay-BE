@@ -18,11 +18,8 @@ import io.jsonwebtoken.security.Keys;
 @Component
 public class JwtUtil {
 
-    private final String SECRET_KEY;
-
-    public JwtUtil(@Value("${JWT_SECRET}") String secretKey) {
-        this.SECRET_KEY = secretKey;
-    }
+    @Value("${jwt.secret}")
+    private String SECRET_KEY;
 
     private Key getSigningKey() {
         return Keys.hmacShaKeyFor(SECRET_KEY.getBytes());

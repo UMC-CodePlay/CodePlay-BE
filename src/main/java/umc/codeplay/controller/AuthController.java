@@ -2,6 +2,8 @@ package umc.codeplay.controller;
 
 import java.util.Collection;
 import java.util.stream.Collectors;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -13,12 +15,12 @@ import org.springframework.web.bind.annotation.*;
 
 import lombok.RequiredArgsConstructor;
 
-import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import umc.codeplay.apiPayLoad.ApiResponse;
 import umc.codeplay.apiPayLoad.code.status.ErrorStatus;
 import umc.codeplay.apiPayLoad.exception.handler.GeneralHandler;
 import umc.codeplay.converter.MemberConverter;
 import umc.codeplay.domain.Member;
+import umc.codeplay.domain.enums.SocialStatus;
 import umc.codeplay.dto.MemberRequestDTO;
 import umc.codeplay.dto.MemberResponseDTO;
 import umc.codeplay.jwt.JwtUtil;
@@ -36,7 +38,11 @@ public class AuthController {
 
     @PostMapping("/login")
     public ApiResponse<MemberResponseDTO.LoginResultDTO> login(
-            @RequestBody MemberRequestDTO.LoginDto request) {
+            @Validated @RequestBody MemberRequestDTO.LoginDto request) {
+        if (memberService.getSocialStatus(request.getEmail()) != SocialStatus.NONE) {
+            throw new GeneralHandler(ErrorStatus.AUTHORIZATION_METHOD_ERROR);
+        }
+
         // 아이디/비밀번호를 사용해 AuthenticationToken 생성
         UsernamePasswordAuthenticationToken authToken =
                 new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword());
@@ -62,7 +68,7 @@ public class AuthController {
 
     @PostMapping("/signup")
     public ApiResponse<MemberResponseDTO.JoinResultDTO> join(
-            @RequestBody MemberRequestDTO.JoinDto request) {
+            @Validated @RequestBody MemberRequestDTO.JoinDto request) {
         Member member = memberService.joinMember(request);
         MemberResponseDTO.JoinResultDTO newJoinResult = MemberConverter.toJoinResultDTO(member);
 
@@ -71,8 +77,8 @@ public class AuthController {
 
     @PostMapping("/refresh")
     public ApiResponse<MemberResponseDTO.LoginResultDTO> refresh(
-            @RequestHeader("Refresh-Token") String refreshToken,
-            @RequestParam("email") String email) {
+            @RequestHeader("Refresh-Token") @NotNull(message = "리프레시 토큰은 필수 헤더입니다.") String refreshToken,
+            @Validated @RequestParam("email") @NotBlank(message = "이메일은 필수 입력값입니다.") String email) {
         // 리프레시 토큰 유효성 검사
         if (jwtUtil.validateToken(refreshToken)
                 && (jwtUtil.getTypeFromToken(refreshToken).equals("refresh"))) {
@@ -97,11 +103,5 @@ public class AuthController {
         } else {
             throw new GeneralHandler(ErrorStatus.INVALID_REFRESH_TOKEN);
         }
-    }
-
-    @SecurityRequirement(name = "JWT TOKEN")
-    @GetMapping("/test")
-    public ApiResponse<String> test() {
-        return ApiResponse.onSuccess("test");
     }
 }
