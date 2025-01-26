@@ -14,6 +14,15 @@ jobs:
       AWS_DEFAULT_REGION: ${{ secrets.AWS_DEFAULT_REGION }}
       S3_BUCKET: ${{ secrets.S3_BUCKET }}
       JWT_SECRET: ${{ secrets.JWT_SECRET }}
+      MYSQL_USERNAME: ${{ secrets.MYSQL_USERNAME }}
+      MYSQL_PASSWORD: ${{ secrets.MYSQL_PASSWORD }}
+      DB_URL: ${{ secrets.DB_URL }}
+      GOOGLE_CLIENT_ID: ${{ secrets.GOOGLE_CLIENT_ID }}
+      GOOGLE_CLIENT_SECRET: ${{ secrets.GOOGLE_CLIENT_SECRET }}
+      GOOGLE_REDIRECT_URI: ${{ secrets.GOOGLE_REDIRECT_URI }}
+      KAKAO_CLIENT_ID: ${{ secrets.KAKAO_CLIENT_ID }}
+      KAKAO_CLIENT_SECRET: ${{ secrets.KAKAO_CLIENT_SECRET }}
+      KAKAO_REDIRECT_URI: ${{ secrets.KAKAO_REDIRECT_URI }}
 
     steps:
       - name: ✔️ 리포지토리 가져오기
@@ -27,6 +36,23 @@ jobs:
 
       - name: ✔️ Gradle 명령 실행 권한 설정
         run: chmod +x gradlew
+
+      - name: 🔍 환경변수 로드 확인
+        run: |
+          echo "🔍 AWS_ACCESS_KEY_ID: ${AWS_ACCESS_KEY_ID:+SET}"
+          echo "🔍 AWS_SECRET_ACCESS_KEY: ${AWS_SECRET_ACCESS_KEY:+SET}"
+          echo "🔍 AWS_DEFAULT_REGION: ${AWS_DEFAULT_REGION:+SET}"
+          echo "🔍 S3_BUCKET: ${S3_BUCKET:+SET}"
+          echo "🔍 JWT_SECRET: ${JWT_SECRET:+SET}"
+          echo "🔍 MYSQL_USERNAME: ${MYSQL_USERNAME:+SET}"
+          echo "🔍 MYSQL_PASSWORD: ${MYSQL_PASSWORD:+SET}"
+          echo "🔍 DB_URL: ${DB_URL:+SET}"
+          echo "🔍 GOOGLE_CLIENT_ID: ${GOOGLE_CLIENT_ID:+SET}"
+          echo "🔍 GOOGLE_CLIENT_SECRET: ${GOOGLE_CLIENT_SECRET:+SET}"
+          echo "🔍 GOOGLE_REDIRECT_URI: ${GOOGLE_REDIRECT_URI:+SET}"
+          echo "🔍 KAKAO_CLIENT_ID: ${KAKAO_CLIENT_ID:+SET}"
+          echo "🔍 KAKAO_CLIENT_SECRET: ${KAKAO_CLIENT_SECRET:+SET}"
+          echo "🔍 KAKAO_REDIRECT_URI: ${KAKAO_REDIRECT_URI:+SET}"
 
       - name: ✔️ Gradle build
         run: ./gradlew build -x installLocalGitHook -x spotlessInternalRegisterDependencies -x spotlessJava -x spotlessJavaApply -x spotlessApply -x spotlessJavaCheck -x spotlessCheck -x test
