@@ -35,7 +35,6 @@ public class AWSConfig {
 
     @Bean
     public S3Presigner s3Presigner() {
-        System.out.println("s3Presigner region: " + region);
         return S3Presigner.builder()
                 .region(Region.of(region))
                 .credentialsProvider(
