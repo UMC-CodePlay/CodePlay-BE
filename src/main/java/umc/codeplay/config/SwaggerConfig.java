@@ -19,7 +19,10 @@ public class SwaggerConfig {
         Info info =
                 new Info()
                         .title("CodePlay Server API")
-                        .description("UMC 7th Code Play Server API 문서")
+                        .description(
+                                "<div>UMC 7th Code Play Server API 문서.</div>"
+                                        + "<div>자세한 작동 방식 등은 Front-End 태그가 담긴 discussion 확인 부탁드립니다.</div>"
+                                        + "https://github.com/UMC-CodePlay/CodePlay-BE/discussions")
                         .version("1.0");
 
         String securitySchemeName = "JWT TOKEN";
