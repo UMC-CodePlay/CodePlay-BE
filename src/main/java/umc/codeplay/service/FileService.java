@@ -27,10 +27,10 @@ import umc.codeplay.repository.MusicRepository;
 @RequiredArgsConstructor
 public class FileService {
 
-    @Value("${cloud.aws.s3.bucket}")
+    @Value("${s3.bucket}")
     private String bucketName;
 
-    @Value("${cloud.aws.region.static}")
+    @Value("${spring.cloud.aws.region.static}")
     private String region;
 
     private final S3Presigner s3Presigner;

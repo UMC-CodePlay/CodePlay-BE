@@ -16,15 +16,16 @@ spring:
         dialect: org.hibernate.dialect.H2Dialect
         ddl-auto: create-drop
 
-cloud:
-  aws:
-    s3:
-      bucket: ${S3_BUCKET}
-    region:
-      static: ${AWS_DEFAULT_REGION}
-    credentials:
-      accessKey: ${AWS_ACCESS_KEY_ID}
-      secretKey: ${AWS_SECRET_ACCESS_KEY}
+  cloud:
+    aws:
+      region:
+        static: ${AWS_DEFAULT_REGION}
+      credentials:
+        access-key: ${AWS_ACCESS_KEY_ID}
+        secret-key: ${AWS_SECRET_ACCESS_KEY}
+
+s3:
+  bucket: ${S3_BUCKET}
 
 jwt:
   secret: ${JWT_SECRET}
