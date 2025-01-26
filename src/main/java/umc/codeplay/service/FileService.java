@@ -23,7 +23,7 @@ import umc.codeplay.apiPayLoad.exception.handler.GeneralHandler;
 @RequiredArgsConstructor
 public class FileService {
 
-    @Value("${cloud.aws.s3.bucket}")
+    @Value("${spring.cloud.aws.s3.bucket}")
     private String bucketName;
 
     private final S3Presigner s3Presigner;
