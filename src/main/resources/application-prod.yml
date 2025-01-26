@@ -28,15 +28,16 @@ spring:
         use_sql_comments: true
         default_batch_fetch_size: 1000  # 배치 크기 설정 (성능 최적화)
 
-cloud:
-  aws:
-    s3:
-      bucket: ${S3_BUCKET}
-    stack.auto: false
-    region.static: ${AWS_DEFAULT_REGION}
-    credentials:
-      accessKey: ${AWS_ACCESS_KEY_ID}
-      secretKey: ${AWS_SECRET_ACCESS_KEY}
+  cloud:
+    aws:
+      region:
+        static: ${AWS_DEFAULT_REGION}
+      credentials:
+        access-key: ${AWS_ACCESS_KEY_ID}
+        secret-key: ${AWS_SECRET_ACCESS_KEY}
+
+s3:
+  bucket: ${S3_BUCKET}
 
 jwt:
   secret: ${JWT_SECRET}

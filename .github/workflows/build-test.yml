@@ -14,15 +14,12 @@ jobs:
       AWS_DEFAULT_REGION: ${{ secrets.AWS_DEFAULT_REGION }}
       S3_BUCKET: ${{ secrets.S3_BUCKET }}
       JWT_SECRET: ${{ secrets.JWT_SECRET }}
-      MYSQL_USERNAME: ${{ secrets.MYSQL_USERNAME }}
-      MYSQL_PASSWORD: ${{ secrets.MYSQL_PASSWORD }}
-      DB_URL: ${{ secrets.DB_URL }}
-      GOOGLE_CLIENT_ID: ${{ secrets.GOOGLE_CLIENT_ID }}
-      GOOGLE_CLIENT_SECRET: ${{ secrets.GOOGLE_CLIENT_SECRET }}
-      GOOGLE_REDIRECT_URI: ${{ secrets.GOOGLE_REDIRECT_URI }}
-      KAKAO_CLIENT_ID: ${{ secrets.KAKAO_CLIENT_ID }}
-      KAKAO_CLIENT_SECRET: ${{ secrets.KAKAO_CLIENT_SECRET }}
-      KAKAO_REDIRECT_URI: ${{ secrets.KAKAO_REDIRECT_URI }}
+      # GOOGLE_CLIENT_ID: ${{ secrets.GOOGLE_CLIENT_ID }}
+      # GOOGLE_CLIENT_SECRET: ${{ secrets.GOOGLE_CLIENT_SECRET }}
+      # GOOGLE_REDIRECT_URI: ${{ secrets.GOOGLE_REDIRECT_URI }}
+      # KAKAO_CLIENT_ID: ${{ secrets.KAKAO_CLIENT_ID }}
+      # KAKAO_CLIENT_SECRET: ${{ secrets.KAKAO_CLIENT_SECRET }}
+      # KAKAO_REDIRECT_URI: ${{ secrets.KAKAO_REDIRECT_URI }}
 
     steps:
       - name: ✔️ 리포지토리 가져오기
@@ -36,23 +33,6 @@ jobs:
 
       - name: ✔️ Gradle 명령 실행 권한 설정
         run: chmod +x gradlew
-
-      - name: ✔️ Debugging Environment Variables
-        run: |
-          echo "🔍 AWS_ACCESS_KEY_ID: $AWS_ACCESS_KEY_ID"
-          echo "🔍 AWS_SECRET_ACCESS_KEY: $AWS_SECRET_ACCESS_KEY"
-          echo "🔍 AWS_DEFAULT_REGION: $AWS_DEFAULT_REGION"
-          echo "🔍 S3_BUCKET: $S3_BUCKET"
-          echo "🔍 JWT_SECRET: $JWT_SECRET"
-          echo "🔍 MYSQL_USERNAME: $MYSQL_USERNAME"
-          echo "🔍 MYSQL_PASSWORD: $MYSQL_PASSWORD"
-          echo "🔍 DB_URL: $DB_URL"
-          echo "🔍 GOOGLE_CLIENT_ID: $GOOGLE_CLIENT_ID"
-          echo "🔍 GOOGLE_CLIENT_SECRET: $GOOGLE_CLIENT_SECRET"
-          echo "🔍 GOOGLE_REDIRECT_URI: $GOOGLE_REDIRECT_URI"
-          echo "🔍 KAKAO_CLIENT_ID: $KAKAO_CLIENT_ID"
-          echo "🔍 KAKAO_CLIENT_SECRET: $KAKAO_CLIENT_SECRET"
-          echo "🔍 KAKAO_REDIRECT_URI: $KAKAO_REDIRECT_URI"
 
       - name: ✔️ Gradle build
         run: ./gradlew build -x installLocalGitHook -x spotlessInternalRegisterDependencies -x spotlessJava -x spotlessJavaApply -x spotlessApply -x spotlessJavaCheck -x spotlessCheck -x test
