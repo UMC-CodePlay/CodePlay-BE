@@ -1,6 +1,7 @@
 package umc.codeplay.service;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import lombok.RequiredArgsConstructor;
 
@@ -23,6 +24,7 @@ public class LikeService {
     private final MemberRepository memberRepository;
     private final MusicLikeRepository musicLikeRepository;
 
+    @Transactional
     public MusicLike addLike(String username, LikeRequestDTO.addLikeRequestDTO request) {
 
         Music music =
@@ -39,6 +41,7 @@ public class LikeService {
         return musicLikeRepository.save(newLike);
     }
 
+    @Transactional
     public Music removeLike(String username, LikeRequestDTO.removeLikeRequestDTO request) {
         Music music =
                 musicRepository
