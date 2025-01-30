@@ -31,4 +31,16 @@ public class MemberRequestDTO {
         @NotBlank(message = "비밀번호는 필수 입력값입니다.")
         String password;
     }
+
+    @Getter
+    public static class ResetPasswordDTO {
+        @Email(message = "이메일 형식이 아닙니다.")
+        String email;
+    }
+
+    @Getter
+    public static class CheckVerificationCodeDTO {
+        String email;
+        String code;
+    }
 }

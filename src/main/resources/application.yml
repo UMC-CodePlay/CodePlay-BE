@@ -1,6 +1,14 @@
 spring:
   application:
     name: codeplay
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: dummy-email@gmail.com  # 이메일 계정
+    password: dummy-password
+    protocol: smt
+    tls: true
+
 
   config:
     import:
@@ -63,3 +71,4 @@ kakao:
     token-uri: "https://kauth.kakao.com/oauth/token"
     user-info-uri: "https://kapi.kakao.com/v2/user/me"
     additional-parameters: ""
+
