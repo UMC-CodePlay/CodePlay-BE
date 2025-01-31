@@ -13,6 +13,8 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.filter.OncePerRequestFilter;
 
+import umc.codeplay.config.security.CustomUserDetails;
+
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     private final JwtUtil jwtUtil;
@@ -34,9 +36,10 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             // 2. 토큰 유효성 검사
             if (jwtUtil.validateToken(token)
                     && (jwtUtil.getTypeFromToken(token).equals("access"))) {
-                // 3. 토큰에서 사용자명 추출
+                // 3. 토큰에서 사용자 정보 추출
                 String username = jwtUtil.getUsernameFromToken(token);
-
+                System.out.println(username);
+                //                String email = jwtUtil.getUsernameFromToken(token);
                 List<String> roles = jwtUtil.getRolesFromToken(token);
 
                 List<GrantedAuthority> authorities =
@@ -44,8 +47,12 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                                 .map(SimpleGrantedAuthority::new)
                                 .collect(Collectors.toList());
 
+                // CustomUserDetails 객체 생성 후 저장
+                CustomUserDetails userDetails = new CustomUserDetails(username, "", authorities);
+
                 UsernamePasswordAuthenticationToken authentication =
-                        new UsernamePasswordAuthenticationToken(username, null, authorities);
+                        new UsernamePasswordAuthenticationToken(userDetails, null, authorities);
+                System.out.println(authentication);
 
                 SecurityContextHolder.getContext().setAuthentication(authentication);
             }

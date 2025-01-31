@@ -1,5 +1,7 @@
 package umc.codeplay.service;
 
+import jakarta.transaction.Transactional;
+
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -59,5 +61,28 @@ public class MemberService {
         } else {
             return member.getSocialStatus();
         }
+    }
+
+    @Transactional
+    public Member updateMember(String email, MemberRequestDTO.UpdateMemberDTO requestDto) {
+        // MemberRepository의 findByEmail()을 사용하여 회원 조회
+        Member member =
+                memberRepository
+                        .findByEmail(email)
+                        .orElseThrow(() -> new IllegalArgumentException("해당 이메일의 회원이 존재하지 않습니다."));
+
+        // 비밀번호 변경(입력값이 있을 경우만)
+        if (requestDto.getPassword() != null && !requestDto.getPassword().isEmpty()) {
+            String encodedPassword = passwordEncoder.encode(requestDto.getPassword());
+            member.setPassword(encodedPassword);
+        }
+
+        // 프로필 사진 변경(입력값이 있을 경우에만)
+        if (requestDto.getProfileUrl() != null && !requestDto.getProfileUrl().isEmpty()) {
+            member.setProfileUrl(requestDto.getProfileUrl());
+        }
+
+        memberRepository.save(member);
+        return member;
     }
 }

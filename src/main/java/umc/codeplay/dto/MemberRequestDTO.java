@@ -4,6 +4,7 @@ import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 
 import lombok.Getter;
+import lombok.Setter;
 
 public class MemberRequestDTO {
 
@@ -42,5 +43,15 @@ public class MemberRequestDTO {
     public static class CheckVerificationCodeDTO {
         String email;
         String code;
+    }
+
+    @Getter
+    @Setter
+    public static class UpdateMemberDTO {
+
+        @NotBlank(message = "비밀번호는 필수 입력값입니다.")
+        String password;
+
+        String profileUrl; // 프로필 사진 URL
     }
 }
