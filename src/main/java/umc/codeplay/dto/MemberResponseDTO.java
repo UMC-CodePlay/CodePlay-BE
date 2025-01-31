@@ -24,4 +24,13 @@ public class MemberResponseDTO {
         String token;
         String refreshToken;
     }
+
+    @Builder
+    @Getter
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class UpdateResultDTO {
+        String email;
+        String profileUrl;
+    }
 }
