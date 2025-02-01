@@ -6,6 +6,7 @@ import jakarta.persistence.*;
 
 import lombok.*;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import umc.codeplay.domain.common.BaseEntity;
 import umc.codeplay.domain.enums.Role;
 import umc.codeplay.domain.enums.SocialStatus;
@@ -43,5 +44,6 @@ public class Member extends BaseEntity {
     private String profileUrl;
 
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
+    @JsonIgnore
     private List<MusicLike> likeList = new ArrayList<>();
 }

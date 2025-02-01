@@ -37,6 +37,11 @@ public class LikeService {
                         .findByEmail(username)
                         .orElseThrow(() -> new GeneralException(ErrorStatus.MEMBER_NOT_FOUND));
 
+        // 중복 좋아요 방지
+        if (musicLikeRepository.existsByMemberAndMusic(member, music)) {
+            throw new GeneralException(ErrorStatus.LIKE_ALREADY_EXIST);
+        }
+
         MusicLike newLike = MusicLikeConverter.toMusicLike(member, music);
         return musicLikeRepository.save(newLike);
     }
