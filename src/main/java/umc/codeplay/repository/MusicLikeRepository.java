@@ -10,4 +10,6 @@ import umc.codeplay.domain.mapping.MusicLike;
 
 public interface MusicLikeRepository extends JpaRepository<MusicLike, Long> {
     Optional<MusicLike> findByMemberAndMusic(Member member, Music music);
+
+    boolean existsByMemberAndMusic(Member member, Music music);
 }

@@ -5,8 +5,6 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import umc.codeplay.domain.mapping.MusicLike;
-
 public class LikeResponseDTO {
 
     @Getter
@@ -15,7 +13,7 @@ public class LikeResponseDTO {
     @NoArgsConstructor
     public static class addLikeResponseDTO {
         Long musicId;
-        MusicLike like;
+        Long musicLikeId;
     }
 
     @Getter

@@ -6,6 +6,7 @@ import jakarta.persistence.*;
 
 import lombok.*;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import umc.codeplay.domain.common.BaseEntity;
 import umc.codeplay.domain.mapping.MusicLike;
 
@@ -30,5 +31,6 @@ public class Music extends BaseEntity {
     private String musicUrl;
 
     @OneToMany(mappedBy = "music", cascade = CascadeType.ALL)
+    @JsonIgnore
     private List<MusicLike> likeList = new ArrayList<>();
 }
