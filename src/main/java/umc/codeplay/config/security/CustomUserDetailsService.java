@@ -1,5 +1,8 @@
 package umc.codeplay.config.security;
 
+import java.util.Collections;
+
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -19,15 +22,21 @@ public class CustomUserDetailsService implements UserDetailsService {
     private final MemberRepository memberRepository;
 
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         Member member =
                 memberRepository
-                        .findByEmail(username)
+                        .findByEmail(email)
                         .orElseThrow(() -> new GeneralHandler(ErrorStatus.MEMBER_NOT_FOUND));
 
-        return org.springframework.security.core.userdetails.User.withUsername(member.getEmail())
-                .password(member.getPassword())
-                .roles(member.getRole().name())
-                .build();
+        //        return
+        // org.springframework.security.core.userdetails.User.withUsername(member.getEmail())
+        //                .password(member.getPassword())
+        //                .roles(member.getRole().name())
+        //                .build();
+
+        return new CustomUserDetails(
+                member.getEmail(),
+                member.getPassword(),
+                Collections.singletonList(new SimpleGrantedAuthority("ROLE_USER")));
     }
 }

@@ -2,6 +2,7 @@ package umc.codeplay.controller;
 
 import java.util.Collection;
 import java.util.stream.Collectors;
+import jakarta.mail.MessagingException;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
@@ -24,6 +25,7 @@ import umc.codeplay.domain.enums.SocialStatus;
 import umc.codeplay.dto.MemberRequestDTO;
 import umc.codeplay.dto.MemberResponseDTO;
 import umc.codeplay.jwt.JwtUtil;
+import umc.codeplay.service.EmailService;
 import umc.codeplay.service.MemberService;
 
 @RestController
@@ -35,6 +37,7 @@ public class AuthController {
     private final AuthenticationManager authenticationManager;
     private final JwtUtil jwtUtil;
     private final MemberService memberService;
+    private final EmailService emailService;
 
     @PostMapping("/login")
     public ApiResponse<MemberResponseDTO.LoginResultDTO> login(
@@ -102,6 +105,27 @@ public class AuthController {
                     MemberConverter.toLoginResultDTO(usernameFromToken, newAccessToken, null));
         } else {
             throw new GeneralHandler(ErrorStatus.INVALID_REFRESH_TOKEN);
+        }
+    }
+
+    // 비밀번호 찾기 및 변경. 이메일 인증
+    @PostMapping("/password/reset/request")
+    public ApiResponse<String> resetPasswordRequest(
+            @RequestBody MemberRequestDTO.ResetPasswordDTO request) throws MessagingException {
+        emailService.sendCode(request.getEmail());
+        return ApiResponse.onSuccess("메일로 인증번호가 전송되었습니다.");
+    }
+
+    // 비밀번호 찾기 및 변경. 인증 코드 확인
+    @PostMapping("/password/reset/verify")
+    public ApiResponse<String> resetPasswordVerify(
+            @RequestBody MemberRequestDTO.CheckVerificationCodeDTO request) {
+        boolean isValid = emailService.verifyCode(request.getEmail(), request.getCode());
+        if (isValid) {
+            return ApiResponse.onSuccess("인증에 성공하였습니다.");
+            // 이후에 비밀번호 변경 페이지 연결해 주어야 함.
+        } else {
+            throw new GeneralHandler(ErrorStatus.EMAIL_CODE_ERROR);
         }
     }
 }

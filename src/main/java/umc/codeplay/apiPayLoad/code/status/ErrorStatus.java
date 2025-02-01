@@ -33,7 +33,10 @@ public enum ErrorStatus implements BaseErrorCode {
 
     MUSIC_NOT_FOUND(HttpStatus.BAD_REQUEST, "MUSIC400", "음원을 찾을 수 없습니다."),
 
-    LIKE_NOT_FOUND(HttpStatus.BAD_REQUEST, "LIKE400", "해당 좋아요를 찾을 수 없습니다.");
+    LIKE_NOT_FOUND(HttpStatus.BAD_REQUEST, "LIKE400", "해당 좋아요를 찾을 수 없습니다."),
+
+    EMAIL_SEND_ERROR(HttpStatus.BAD_REQUEST, "EMAIL400", "메일 발송에 실패하였습니다."),
+    EMAIL_CODE_ERROR(HttpStatus.BAD_REQUEST, "EMAIL401", "유효한 코드가 아닙니다.");
 
     private final HttpStatus httpStatus;
     private final String code;
