@@ -14,6 +14,7 @@ import org.springframework.web.servlet.view.RedirectView;
 
 import lombok.RequiredArgsConstructor;
 
+import io.swagger.v3.oas.annotations.Hidden;
 import umc.codeplay.apiPayLoad.ApiResponse;
 import umc.codeplay.apiPayLoad.code.status.ErrorStatus;
 import umc.codeplay.apiPayLoad.exception.handler.GeneralHandler;
@@ -55,6 +56,7 @@ public class OAuthController {
         return redirectView;
     }
 
+    @Hidden
     @GetMapping("/callback/{provider}")
     public ApiResponse<MemberResponseDTO.LoginResultDTO> OAuthCallback(
             @RequestParam("code") String code, @PathVariable("provider") String provider) {
