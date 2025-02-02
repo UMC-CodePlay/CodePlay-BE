@@ -31,6 +31,5 @@ public class MemberResponseDTO {
     @AllArgsConstructor
     public static class UpdateResultDTO {
         String email;
-        String profileUrl;
     }
 }
