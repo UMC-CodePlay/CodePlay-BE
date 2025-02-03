@@ -18,6 +18,7 @@ import umc.codeplay.domain.mapping.MusicLike;
 public class Music extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    // 추후 BigInteger로 변경 필요
     private Long id;
 
     @Column(nullable = false, length = 50)

@@ -1,6 +1,8 @@
 package umc.codeplay.service;
 
 import java.security.InvalidParameterException;
+import java.util.List;
+import java.util.stream.Collectors;
 import jakarta.transaction.Transactional;
 
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -11,10 +13,13 @@ import lombok.RequiredArgsConstructor;
 import umc.codeplay.apiPayLoad.code.status.ErrorStatus;
 import umc.codeplay.apiPayLoad.exception.handler.GeneralHandler;
 import umc.codeplay.converter.MemberConverter;
+import umc.codeplay.domain.Harmony;
 import umc.codeplay.domain.Member;
 import umc.codeplay.domain.enums.Role;
 import umc.codeplay.domain.enums.SocialStatus;
 import umc.codeplay.dto.MemberRequestDTO;
+import umc.codeplay.dto.MemberResponseDTO;
+import umc.codeplay.repository.HarmonyRepository;
 import umc.codeplay.repository.MemberRepository;
 
 @Service
@@ -23,6 +28,8 @@ public class MemberService {
 
     private final MemberRepository memberRepository;
     private final PasswordEncoder passwordEncoder;
+    private final HarmonyRepository harmonyRepository;
+    private final MemberConverter memberConverter;
 
     public Member joinMember(MemberRequestDTO.JoinDto request) {
 
@@ -89,5 +96,14 @@ public class MemberService {
 
         memberRepository.save(member);
         return member;
+    }
+
+    public List<MemberResponseDTO.GetMyHarmonyDTO> getMyHarmony(Member member) {
+
+        List<Harmony> harmonies = harmonyRepository.findByMusicMember(member);
+
+        return harmonies.stream()
+                .map(harmony -> memberConverter.toGetMyHarmonyDTO(harmony, member))
+                .collect(Collectors.toList());
     }
 }
