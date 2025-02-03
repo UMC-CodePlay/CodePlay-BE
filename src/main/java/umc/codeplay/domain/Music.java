@@ -6,6 +6,7 @@ import jakarta.persistence.*;
 
 import lombok.*;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import umc.codeplay.domain.common.BaseEntity;
 import umc.codeplay.domain.mapping.MusicLike;
 
@@ -17,6 +18,7 @@ import umc.codeplay.domain.mapping.MusicLike;
 public class Music extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    // 추후 BigInteger로 변경 필요
     private Long id;
 
     @Column(nullable = false, length = 50)
@@ -26,6 +28,10 @@ public class Music extends BaseEntity {
     @JoinColumn(name = "member_id")
     private Member member;
 
+    @Column(columnDefinition = "TEXT")
+    private String musicUrl;
+
     @OneToMany(mappedBy = "music", cascade = CascadeType.ALL)
+    @JsonIgnore
     private List<MusicLike> likeList = new ArrayList<>();
 }

@@ -6,6 +6,8 @@ import jakarta.persistence.*;
 
 import lombok.*;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import umc.codeplay.domain.common.BaseEntity;
 import umc.codeplay.domain.enums.Role;
 import umc.codeplay.domain.enums.SocialStatus;
 import umc.codeplay.domain.mapping.MusicLike;
@@ -16,10 +18,11 @@ import umc.codeplay.domain.mapping.MusicLike;
 @Builder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
-public class Member {
+public class Member extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    // ToDo추후 BigInteger로 변환
     private Long id;
 
     private String name;
@@ -42,5 +45,6 @@ public class Member {
     private String profileUrl;
 
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
+    @JsonIgnore
     private List<MusicLike> likeList = new ArrayList<>();
 }

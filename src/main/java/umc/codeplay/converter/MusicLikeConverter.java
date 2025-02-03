@@ -17,7 +17,7 @@ public class MusicLikeConverter {
         return LikeResponseDTO.addLikeResponseDTO
                 .builder()
                 .musicId(like.getMusic().getId())
-                .like(like)
+                .musicLikeId(like.getId())
                 .build();
     }
 

@@ -6,7 +6,6 @@ public class LikeRequestDTO {
 
     @Getter
     public static class addLikeRequestDTO {
-
         Long musicId;
     }
 
