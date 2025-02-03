@@ -36,7 +36,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             // 2. 토큰 유효성 검사
             if (jwtUtil.validateToken(token)
                     && (jwtUtil.getTypeFromToken(token).equals("access"))) {
-                // 3. 토큰에서 사용자 정보 추출
+                // 3. 토큰에서 사용자 정보 추출(이메일)
                 String username = jwtUtil.getUsernameFromToken(token);
                 System.out.println(username);
                 //                String email = jwtUtil.getUsernameFromToken(token);
