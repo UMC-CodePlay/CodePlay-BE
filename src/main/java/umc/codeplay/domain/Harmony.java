@@ -14,6 +14,7 @@ import umc.codeplay.domain.common.BaseEntity;
 public class Harmony extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    // 추후 BigInteger로 변경 필요
     private Long id;
 
     @Column(nullable = false, length = 50)

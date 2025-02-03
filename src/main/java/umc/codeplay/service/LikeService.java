@@ -66,4 +66,9 @@ public class LikeService {
         musicLikeRepository.delete(musicLike);
         return music;
     }
+
+    @Transactional
+    public boolean isLikedByUser(Member member, Music music) {
+        return musicLikeRepository.existsByMemberAndMusic(member, music);
+    }
 }
