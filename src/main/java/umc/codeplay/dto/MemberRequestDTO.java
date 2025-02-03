@@ -49,9 +49,10 @@ public class MemberRequestDTO {
     @Setter
     public static class UpdateMemberDTO {
 
-        @NotBlank(message = "비밀번호는 필수 입력값입니다.")
-        String password;
+        @NotBlank(message = "기존 비밀번호는 필수 입력값입니다.")
+        String currentPassword;
 
-        String profileUrl; // 프로필 사진 URL
+        @NotBlank(message = "새로운 비밀번호는 필수 입력값입니다.")
+        String newPassword;
     }
 }

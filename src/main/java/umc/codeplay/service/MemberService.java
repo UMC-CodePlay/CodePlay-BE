@@ -1,5 +1,6 @@
 package umc.codeplay.service;
 
+import java.security.InvalidParameterException;
 import jakarta.transaction.Transactional;
 
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -65,21 +66,25 @@ public class MemberService {
 
     @Transactional
     public Member updateMember(String email, MemberRequestDTO.UpdateMemberDTO requestDto) {
+
         // MemberRepository의 findByEmail()을 사용하여 회원 조회
         Member member =
                 memberRepository
                         .findByEmail(email)
                         .orElseThrow(() -> new IllegalArgumentException("해당 이메일의 회원이 존재하지 않습니다."));
-
-        // 비밀번호 변경(입력값이 있을 경우만)
-        if (requestDto.getPassword() != null && !requestDto.getPassword().isEmpty()) {
-            String encodedPassword = passwordEncoder.encode(requestDto.getPassword());
+        System.out.println("console log checking");
+        // 사용자 입력 값
+        String newPassword = requestDto.getNewPassword();
+        String currentPassword = requestDto.getCurrentPassword();
+        // 기존 비밀번호 확인
+        if (!passwordEncoder.matches(currentPassword, member.getPassword())) {
+            throw new InvalidParameterException("기존 비밀번호가 일치하지 않습니다.");
+            // 기존 비밀번호가 일치하고 새로운 비밀번호 입력값이 있을때 비밀번호 변경
+        } else if (newPassword != null && !newPassword.isEmpty()) {
+            String encodedPassword = passwordEncoder.encode(newPassword);
             member.setPassword(encodedPassword);
-        }
-
-        // 프로필 사진 변경(입력값이 있을 경우에만)
-        if (requestDto.getProfileUrl() != null && !requestDto.getProfileUrl().isEmpty()) {
-            member.setProfileUrl(requestDto.getProfileUrl());
+        } else {
+            throw new InvalidParameterException("새로운 비밀번호를 입력해주세요.");
         }
 
         memberRepository.save(member);

@@ -39,7 +39,7 @@ public class MemberConverter {
     public static MemberResponseDTO.UpdateResultDTO toUpdateResultDTO(Member member) {
         return MemberResponseDTO.UpdateResultDTO.builder()
                 .email(member.getEmail())
-                .profileUrl(member.getProfileUrl())
+                //                .profileUrl(member.getProfileUrl())
                 .build();
     }
 }
