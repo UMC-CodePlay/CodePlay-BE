@@ -61,19 +61,31 @@ public class MemberController {
         return ApiResponse.onSuccess(results);
     }
 
-    //    @Operation(summary = "마이페이지 세션분리 탭 결과", description = "")
-    //    @GetMapping("/mypage/tracks")
-    //    public ApiResponse<List<MemberResponseDTO.GetMyTrackDTO>> getMyTracks() {
-    //
-    //    }
+    @Operation(summary = "마이페이지 세션분리 탭 결과", description = "")
+    @GetMapping("/mypage/track")
+    public ApiResponse<List<MemberResponseDTO.GetMyTrackDTO>> getMyTracks(
+            @AuthenticationPrincipal CustomUserDetails userDetails) {
 
-    //    @Operation(summary = "마이페이지 화성분석 탭에서 세션분리", description = "")
-    //    @GetMapping("/mypage/harmonys/track")
-    //    public ApiResponse<>
+        String email = userDetails.getUsername();
+
+        Optional<Member> optionalMember = memberRepository.findByEmail(email);
+        if (optionalMember.isEmpty()) {
+            throw new RuntimeException("사용자를 찾을 수 없습니다.");
+        }
+        Member member = optionalMember.get();
+
+        List<MemberResponseDTO.GetMyTrackDTO> results = memberService.getMyTrack(member);
+
+        return ApiResponse.onSuccess(results);
+    }
+    //
+    //        @Operation(summary = "마이페이지 화성분석 탭에서 세션분리", description = "")
+    //        @GetMapping("/mypage/harmonys/track")
+    //        public ApiResponse<>
     //
     //
-    //    @Operation(summary = "마이페이지 세션분리 탭에서 화성분석", description = "")
-    //    @GetMapping("/mypage/tracks/harmony")
-    //    public ApiResponse<>
+    //        @Operation(summary = "마이페이지 세션분리 탭에서 화성분석", description = "")
+    //        @GetMapping("/mypage/tracks/harmony")
+    //        public ApiResponse<>
 
 }
