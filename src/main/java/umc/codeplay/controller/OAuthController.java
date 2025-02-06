@@ -96,7 +96,6 @@ public class OAuthController {
         Member member =
                 memberService.findOrCreateOAuthMember(
                         email, SocialStatus.valueOf(provider.toUpperCase()));
-        //                        email, name, SocialStatus.valueOf(provider.toUpperCase()));
 
         // (5) JWTUtil 이용해서 Access/Refresh 토큰 발급
         var authorities = List.of(new SimpleGrantedAuthority("ROLE_" + member.getRole().name()));

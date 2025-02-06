@@ -36,10 +36,9 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             // 2. 토큰 유효성 검사
             if (jwtUtil.validateToken(token)
                     && (jwtUtil.getTypeFromToken(token).equals("access"))) {
-                // 3. 토큰에서 사용자 정보 추출(이메일)
-                String username = jwtUtil.getUsernameFromToken(token);
-                System.out.println(username);
-                //                String email = jwtUtil.getUsernameFromToken(token);
+                // 3. 토큰에서 사용자 정보 추출
+                String email = jwtUtil.getEmailFromToken(token);
+                System.out.println(email);
                 List<String> roles = jwtUtil.getRolesFromToken(token);
 
                 List<GrantedAuthority> authorities =
@@ -48,7 +47,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                                 .collect(Collectors.toList());
 
                 // CustomUserDetails 객체 생성 후 저장
-                CustomUserDetails userDetails = new CustomUserDetails(username, "", authorities);
+                CustomUserDetails userDetails = new CustomUserDetails(email, "", authorities);
 
                 UsernamePasswordAuthenticationToken authentication =
                         new UsernamePasswordAuthenticationToken(userDetails, null, authorities);

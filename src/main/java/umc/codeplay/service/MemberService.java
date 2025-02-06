@@ -53,7 +53,6 @@ public class MemberService {
             member =
                     Member.builder()
                             .email(email)
-                            //                            .name(name)
                             .role(Role.USER)
                             .socialStatus(socialStatus)
                             .build();
