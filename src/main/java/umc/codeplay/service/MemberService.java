@@ -42,7 +42,7 @@ public class MemberService {
         return memberRepository.save(newMember);
     }
 
-    public Member findOrCreateOAuthMember(String email, String name, SocialStatus socialStatus) {
+    public Member findOrCreateOAuthMember(String email, SocialStatus socialStatus) {
 
         Member member = memberRepository.findByEmail(email).orElse(null);
 
@@ -50,7 +50,6 @@ public class MemberService {
             member =
                     Member.builder()
                             .email(email)
-                            .name(name)
                             .role(Role.USER)
                             .socialStatus(socialStatus)
                             .build();

@@ -25,8 +25,6 @@ public class Member extends BaseEntity {
     // ToDo추후 BigInteger로 변환
     private Long id;
 
-    private String name;
-
     private String password;
 
     private String email;

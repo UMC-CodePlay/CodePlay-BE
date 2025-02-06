@@ -74,12 +74,12 @@ public class OAuthController {
         String accessToken = (String) tokenResponse.get("access_token");
         Map<String, Object> userInfo = requestOAuthUserInfo(accessToken, properties);
         String email = null;
-        String name = null;
+        //        String name = null;
         switch (provider) {
             case "google" -> {
                 // (3-a) 구글 UserInfo Endpoint 로 이메일, 프로필 등 조회
                 email = (String) userInfo.get("email");
-                name = (String) userInfo.get("name");
+                //                name = (String) userInfo.get("name");
             }
             case "kakao" -> {
                 // (3-b) 카카오 UserInfo Endpoint 로 이메일, 프로필 등 조회
@@ -88,14 +88,14 @@ public class OAuthController {
                 Map<String, Object> kakaoProperties =
                         (Map<String, Object>) userInfo.get("properties");
                 email = (String) kakaoAccount.get("email");
-                name = (String) kakaoProperties.get("nickname");
+                //                name = (String) kakaoProperties.get("nickname");
             }
         }
 
         // (4) 우리 DB에서 회원 조회 or 생성
         Member member =
                 memberService.findOrCreateOAuthMember(
-                        email, name, SocialStatus.valueOf(provider.toUpperCase()));
+                        email, SocialStatus.valueOf(provider.toUpperCase()));
 
         // (5) JWTUtil 이용해서 Access/Refresh 토큰 발급
         var authorities = List.of(new SimpleGrantedAuthority("ROLE_" + member.getRole().name()));
