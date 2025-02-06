@@ -26,8 +26,7 @@ public class JwtUtil {
     }
 
     // JWT 토큰 생성
-    public String generateToken(
-            String username, Collection<? extends GrantedAuthority> authorities) {
+    public String generateToken(String email, Collection<? extends GrantedAuthority> authorities) {
         Date now = new Date();
 
         List<String> roleNames =
@@ -38,7 +37,7 @@ public class JwtUtil {
         // 30분 만료
         long EXPIRATION_TIME = 1000 * 60 * 30L;
         return Jwts.builder()
-                .setSubject(username) // 사용자 식별 정보
+                .setSubject(email) // 사용자 식별 정보
                 .setIssuedAt(now)
                 .claim("type", "access")
                 .claim("roles", roleNames) // 발급 시간
@@ -94,7 +93,7 @@ public class JwtUtil {
 
     // JWT 리프레시 토큰 생성
     public String generateRefreshToken(
-            String username, Collection<? extends GrantedAuthority> authorities) {
+            String email, Collection<? extends GrantedAuthority> authorities) {
         Date now = new Date();
 
         List<String> roleNames =
@@ -105,7 +104,7 @@ public class JwtUtil {
         // 1일 만료
         long EXPIRATION_TIME = 1000 * 60 * 60 * 24L;
         return Jwts.builder()
-                .setSubject(username) // 사용자 식별 정보
+                .setSubject(email) // 사용자 식별 정보
                 .setIssuedAt(now)
                 .claim("type", "refresh")
                 .claim("roles", roleNames) // 역할 정보 추가
