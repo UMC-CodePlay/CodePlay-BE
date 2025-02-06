@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 
 import umc.codeplay.domain.Harmony;
 import umc.codeplay.domain.Member;
+import umc.codeplay.domain.Track;
 import umc.codeplay.domain.enums.Role;
 import umc.codeplay.domain.enums.SocialStatus;
 import umc.codeplay.dto.MemberRequestDTO;
@@ -51,6 +52,7 @@ public class MemberConverter {
 
     public MemberResponseDTO.GetMyHarmonyDTO toGetMyHarmonyDTO(Harmony harmony, Member member) {
         return MemberResponseDTO.GetMyHarmonyDTO.builder()
+                .harmonyId(harmony.getId())
                 .musicId(harmony.getMusic().getId())
                 .musicTitle(harmony.getMusic().getTitle())
                 .createdAt(harmony.getCreatedAt())
@@ -60,6 +62,21 @@ public class MemberConverter {
                 .isLiked(
                         likeService.isLikedByUser(
                                 member, harmony.getMusic())) // LikeService에서 좋아요 여부 확인
+                .build();
+    }
+
+    public MemberResponseDTO.GetMyTrackDTO toGetMyTrackDTO(Track track, Member member) {
+        return MemberResponseDTO.GetMyTrackDTO.builder()
+                .trackId(track.getId())
+                .musicId(track.getMusic().getId())
+                .musicTitle(track.getMusic().getTitle())
+                .createdAt(track.getCreatedAt())
+                .guitarUrl(track.getGuitarUrl())
+                .drumUrl(track.getDrumUrl())
+                .keyoardUrl(track.getKeyboardUrl())
+                .isLiked(
+                        likeService.isLikedByUser(
+                                member, track.getMusic())) // LikeService에서 좋아요 여부 확인
                 .build();
     }
 }
