@@ -48,7 +48,7 @@ public class JwtUtil {
     }
 
     // JWT 토큰에서 username 추출
-    public String getUsernameFromToken(String token) {
+    public String getEmailFromToken(String token) {
         return Jwts.parserBuilder()
                 .setSigningKey(getSigningKey())
                 .build()

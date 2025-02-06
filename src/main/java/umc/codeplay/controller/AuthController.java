@@ -86,7 +86,7 @@ public class AuthController {
         if (jwtUtil.validateToken(refreshToken)
                 && (jwtUtil.getTypeFromToken(refreshToken).equals("refresh"))) {
             // 리프레시 토큰에서 사용자명 추출
-            String usernameFromToken = jwtUtil.getUsernameFromToken(refreshToken);
+            String usernameFromToken = jwtUtil.getEmailFromToken(refreshToken);
 
             if (!email.equals(usernameFromToken)) {
                 throw new GeneralHandler(ErrorStatus.INVALID_REFRESH_TOKEN);
