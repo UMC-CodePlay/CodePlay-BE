@@ -73,7 +73,7 @@ public class MemberConverter {
                 .createdAt(track.getCreatedAt())
                 .guitarUrl(track.getGuitarUrl())
                 .drumUrl(track.getDrumUrl())
-                .keyoardUrl(track.getKeyboardUrl())
+                .keyboardUrl(track.getKeyboardUrl())
                 .isLiked(
                         likeService.isLikedByUser(
                                 member, track.getMusic())) // LikeService에서 좋아요 여부 확인

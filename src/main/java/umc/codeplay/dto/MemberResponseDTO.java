@@ -1,6 +1,7 @@
 package umc.codeplay.dto;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -64,6 +65,16 @@ public class MemberResponseDTO {
         Boolean isLiked;
         String guitarUrl;
         String drumUrl;
-        String keyoardUrl;
+        String keyboardUrl;
+    }
+
+    @Builder
+    @Getter
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class GetAllByMusicTitleDTO {
+
+        private List<GetMyHarmonyDTO> harmonies;
+        private List<GetMyTrackDTO> tracks;
     }
 }

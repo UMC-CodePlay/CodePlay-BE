@@ -52,4 +52,11 @@ public class MemberRequestDTO {
         @NotBlank(message = "새로운 비밀번호는 필수 입력값입니다.")
         String newPassword;
     }
+
+    @Getter
+    public static class SearchByMusicTitleDTO {
+
+        @NotBlank(message = "음원 제목은 필수 입력값입니다.")
+        String musicTitle;
+    }
 }
