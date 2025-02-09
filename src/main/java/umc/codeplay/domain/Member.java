@@ -22,7 +22,7 @@ public class Member extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    // ToDo추후 BigInteger로 변환
+    // TODO: 추후 BigInteger로 변환
     private Long id;
 
     private String password;

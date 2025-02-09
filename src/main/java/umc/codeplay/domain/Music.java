@@ -18,17 +18,17 @@ import umc.codeplay.domain.mapping.MusicLike;
 public class Music extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    // 추후 BigInteger로 변경 필요
+    // TODO: 추후 BigInteger로 변환
     private Long id;
 
-    @Column(nullable = false, length = 50)
+    @Column(nullable = false, length = 100)
     private String title;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "member_id")
+    @JoinColumn(name = "member_id", nullable = false)
     private Member member;
 
-    @Column(columnDefinition = "TEXT")
+    @Column(columnDefinition = "TEXT", nullable = false)
     private String musicUrl;
 
     @OneToMany(mappedBy = "music", cascade = CascadeType.ALL)
