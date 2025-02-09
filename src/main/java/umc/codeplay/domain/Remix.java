@@ -1,10 +1,16 @@
 package umc.codeplay.domain;
 
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import jakarta.persistence.*;
 
 import lombok.*;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.Comment;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 import umc.codeplay.domain.common.BaseEntity;
 
 @Entity
@@ -37,6 +43,8 @@ public class Remix extends BaseEntity {
     @Setter
     private String resultMusicUrl;
 
+    private LocalDateTime deletedAt;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @Comment("입력 음악 ID")
     @JoinColumn(name = "music_id", nullable = false)
@@ -46,6 +54,11 @@ public class Remix extends BaseEntity {
     @Comment("이전 단계 리믹스 ID")
     @JoinColumn(name = "parent_remix_id")
     private Remix parentRemix;
+
+    @OneToMany(mappedBy = "parentRemix", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    @JsonIgnore
+    private List<Remix> childRemixList = new ArrayList<>();
 
     @Builder
     public Remix(
