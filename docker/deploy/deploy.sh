@@ -23,19 +23,19 @@ docker image prune -f
 echo "멈춘 container 삭제"
 docker container prune -f
 
-for i in {1..10}; do
+for i in $(seq 1 10); do
     if [ "$i" -eq 10 ]; then
-       echo "Health check failed"
-       docker compose down
-       exit 1
+        echo "Health check failed after maximum attempts"
+        docker compose down
+        exit 1
     fi
 
-    if curl "http://localhost:8080/health"; then
+    if curl -s "http://localhost:8080/health" > /dev/null; then
         echo "컨테이너가 정상적으로 실행되었습니다..."
         break
     fi
 
-    echo "spring boot application health check 중..."
+    echo "spring boot application health check 중... (attempt $i/10)"
     sleep 15
 done
 
