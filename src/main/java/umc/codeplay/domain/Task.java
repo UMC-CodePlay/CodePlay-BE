@@ -27,8 +27,8 @@ public class Task extends BaseEntity {
     private ProcessStatus status = ProcessStatus.REQUESTED;
 
     @Enumerated(EnumType.STRING)
-    @Comment("요청 기능 타입 (화성 분석, 세션 분리, 리믹스)")
     @Column(nullable = false)
+    @Comment("요청 기능 타입 (화성 분석, 세션 분리, 리믹스)")
     private JobType jobType;
 
     @Column(nullable = false)
