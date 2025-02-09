@@ -16,6 +16,8 @@ import org.springframework.web.bind.annotation.*;
 
 import lombok.RequiredArgsConstructor;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import umc.codeplay.apiPayLoad.ApiResponse;
 import umc.codeplay.apiPayLoad.code.status.ErrorStatus;
 import umc.codeplay.apiPayLoad.exception.handler.GeneralHandler;
@@ -32,6 +34,7 @@ import umc.codeplay.service.MemberService;
 @RequestMapping("/auth")
 @RequiredArgsConstructor
 @Validated
+@Tag(name = "auth-controller", description = "인증 관련 처리 API, 전부 JWT 토큰 헤더 포함을 필요로 하지 않습니다.")
 public class AuthController {
 
     private final AuthenticationManager authenticationManager;
@@ -40,6 +43,9 @@ public class AuthController {
     private final EmailService emailService;
 
     @PostMapping("/login")
+    @Operation(
+            summary = "이메일/비밀번호를 사용해 로그인합니다.",
+            description = "JWT 토큰/리프레시 토큰을 반환합니다. 소셜 로그인 계정으로 로그인 안됩니다.")
     public ApiResponse<MemberResponseDTO.LoginResultDTO> login(
             @Validated @RequestBody MemberRequestDTO.LoginDto request) {
         if (memberService.getSocialStatus(request.getEmail()) != SocialStatus.NONE) {
@@ -69,6 +75,9 @@ public class AuthController {
     }
 
     @PostMapping("/signup")
+    @Operation(
+            summary = "이메일/비밀번호를 사용해 회원가입합니다.",
+            description = "JWT 토큰을 반환해 주지 않습니다. 로그인 API 를 사용해주세요.")
     public ApiResponse<MemberResponseDTO.JoinResultDTO> join(
             @Validated @RequestBody MemberRequestDTO.JoinDto request) {
         Member member = memberService.joinMember(request);
@@ -78,6 +87,9 @@ public class AuthController {
     }
 
     @PostMapping("/refresh")
+    @Operation(
+            summary = "리프레시 토큰을 사용해 액세스 토큰을 갱신합니다.",
+            description = "Refresh-Token 헤더를 사용해야 합니다. 리프레시 토큰 유효기간은 24시간이며, 만료 시 재로그인 해야 합니다.")
     public ApiResponse<MemberResponseDTO.LoginResultDTO> refresh(
             @RequestHeader("Refresh-Token") @NotNull(message = "리프레시 토큰은 필수 헤더입니다.") String refreshToken,
             @Validated @RequestParam("email") @NotBlank(message = "이메일은 필수 입력값입니다.") String email) {
