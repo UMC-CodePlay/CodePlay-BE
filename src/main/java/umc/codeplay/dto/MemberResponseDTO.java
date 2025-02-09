@@ -58,7 +58,8 @@ public class MemberResponseDTO {
     @NoArgsConstructor
     @AllArgsConstructor
     public static class GetMyTrackDTO {
-        // 세션 분리 id, 음원 id, 음원 제목, 생성일자, 보컬 파일 url, 반주 url, 베이스 파일 url, 드럼 파일 url, 즐겨찾기 여부
+        // 세션 분리 harmonyId, 음원 harmonyId, 음원 제목, 생성일자, 보컬 파일 url, 반주 url, 베이스 파일 url, 드럼 파일 url,
+        // 즐겨찾기 여부
         Long trackId;
         Long musicId;
         String musicTitle;
