@@ -2,38 +2,57 @@ package umc.codeplay.domain;
 
 import jakarta.persistence.*;
 
-import lombok.*;
+import lombok.AccessLevel;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
+import org.hibernate.annotations.Comment;
 import umc.codeplay.domain.common.BaseEntity;
 
 @Entity
 @Getter
-@Builder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@AllArgsConstructor
 public class Harmony extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    // 추후 BigInteger로 변경 필요
+    // TODO: 추후 BigInteger로 변환
     private Long id;
 
-    @Column(nullable = false, length = 50)
+    @Column(nullable = false, length = 100)
     private String title;
 
-    private String harmonyKey;
-
+    @Comment("스케일 = key")
     private String scale;
 
-    private String chord;
+    @Comment("장르")
+    private String genre;
 
+    @Comment("bpm 값")
     private Integer bpm;
 
-    private Integer soundPressure;
-
-    @Column(columnDefinition = "TEXT")
-    private String harmonyUrl;
+    @Comment("음색")
+    private String voiceColor;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "music_id")
+    @Comment("입력 음악 ID")
+    @JoinColumn(name = "music_id", nullable = false)
     private Music music;
+
+    @Builder
+    private Harmony(String scale, String genre, Integer bpm, String voiceColor, Music music) {
+        this.title = music.getTitle().split("-", 2)[1];
+        this.scale = scale;
+        this.genre = genre;
+        this.bpm = bpm;
+        this.voiceColor = voiceColor;
+        this.music = music;
+    }
+
+    public void updateHarmonyResult(String scale, Integer bpm, String genre, String voiceColor) {
+        this.scale = scale;
+        this.bpm = bpm;
+        this.genre = genre;
+        this.voiceColor = voiceColor;
+    }
 }
