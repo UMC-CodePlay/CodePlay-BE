@@ -15,12 +15,15 @@ import umc.codeplay.apiPayLoad.exception.handler.GeneralHandler;
 import umc.codeplay.converter.MemberConverter;
 import umc.codeplay.domain.Harmony;
 import umc.codeplay.domain.Member;
+import umc.codeplay.domain.Music;
+import umc.codeplay.domain.Track;
 import umc.codeplay.domain.enums.Role;
 import umc.codeplay.domain.enums.SocialStatus;
 import umc.codeplay.dto.MemberRequestDTO;
 import umc.codeplay.dto.MemberResponseDTO;
 import umc.codeplay.repository.HarmonyRepository;
 import umc.codeplay.repository.MemberRepository;
+import umc.codeplay.repository.TrackRepository;
 
 @Service
 @RequiredArgsConstructor
@@ -30,6 +33,7 @@ public class MemberService {
     private final PasswordEncoder passwordEncoder;
     private final HarmonyRepository harmonyRepository;
     private final MemberConverter memberConverter;
+    private final TrackRepository trackRepository;
 
     public Member joinMember(MemberRequestDTO.JoinDto request) {
 
@@ -103,6 +107,53 @@ public class MemberService {
 
         return harmonies.stream()
                 .map(harmony -> memberConverter.toGetMyHarmonyDTO(harmony, member))
+                .collect(Collectors.toList());
+    }
+
+    public List<MemberResponseDTO.GetMyTrackDTO> getMyTrack(Member member) {
+
+        List<Track> tracks = trackRepository.findByMusicMember(member);
+
+        return tracks.stream()
+                .map(track -> memberConverter.toGetMyTrackDTO(track, member))
+                .collect(Collectors.toList());
+    }
+
+    public MemberResponseDTO.GetAllByMusicTitleDTO getAllByMusicTitle(Member member, Music music) {
+
+        List<Harmony> harmonies = harmonyRepository.findByMusicAndMember(member, music);
+        List<Track> tracks = trackRepository.findByMusicAndMember(member, music);
+
+        List<MemberResponseDTO.GetMyHarmonyDTO> harmonyDTOs =
+                harmonies.stream()
+                        .map(harmony -> memberConverter.toGetMyHarmonyDTO(harmony, member))
+                        .collect(Collectors.toList());
+
+        List<MemberResponseDTO.GetMyTrackDTO> trackDTOs =
+                tracks.stream()
+                        .map(track -> memberConverter.toGetMyTrackDTO(track, member))
+                        .collect(Collectors.toList());
+
+        // DTO를 하나의 객체로 묶어서 반환
+        return new MemberResponseDTO.GetAllByMusicTitleDTO(harmonyDTOs, trackDTOs);
+    }
+
+    // 음원 제목으로 my harmony 검색
+    public List<MemberResponseDTO.GetMyHarmonyDTO> getHarmonyByMusicTitle(
+            Member member, Music music) {
+        List<Harmony> harmonies = harmonyRepository.findByMusicAndMember(member, music);
+
+        return harmonies.stream()
+                .map(harmony -> memberConverter.toGetMyHarmonyDTO(harmony, member))
+                .collect(Collectors.toList());
+    }
+
+    // 음원 제목으로 my track 검색
+    public List<MemberResponseDTO.GetMyTrackDTO> getTrackByMusicTitle(Member member, Music music) {
+        List<Track> tracks = trackRepository.findByMusicAndMember(member, music);
+
+        return tracks.stream()
+                .map(track -> memberConverter.toGetMyTrackDTO(track, member))
                 .collect(Collectors.toList());
     }
 }

@@ -128,5 +128,12 @@ jib {
         jvmFlags = ['-Xms512m']
         format = 'OCI'
         creationTime = 'USE_CURRENT_TIMESTAMP'
+        entrypoint = [
+                'sh',
+                '-c',
+                'apk --no-cache add tzdata && \
+                 cp /usr/share/zoneinfo/Asia/Seoul /etc/localtime && \
+                 java -cp /app/resources:/app/classes:/app/libs/* umc.codeplay.CodeplayApplication'
+        ]
     }
 }

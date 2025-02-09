@@ -7,6 +7,8 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 import umc.codeplay.domain.common.BaseEntity;
 import umc.codeplay.domain.mapping.MusicLike;
 
@@ -18,20 +20,36 @@ import umc.codeplay.domain.mapping.MusicLike;
 public class Music extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    // 추후 BigInteger로 변경 필요
+    // TODO: 추후 BigInteger로 변환
     private Long id;
 
-    @Column(nullable = false, length = 50)
+    @Column(nullable = false, length = 100)
     private String title;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "member_id")
-    private Member member;
-
-    @Column(columnDefinition = "TEXT")
+    @Column(columnDefinition = "TEXT", nullable = false)
     private String musicUrl;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "member_id", nullable = false)
+    private Member member;
+
     @OneToMany(mappedBy = "music", cascade = CascadeType.ALL)
+    @OnDelete(action = OnDeleteAction.CASCADE)
     @JsonIgnore
     private List<MusicLike> likeList = new ArrayList<>();
+
+    @OneToMany(mappedBy = "music", cascade = CascadeType.ALL)
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    @JsonIgnore
+    private List<Harmony> harmonies = new ArrayList<>();
+
+    @OneToMany(mappedBy = "music", cascade = CascadeType.ALL)
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    @JsonIgnore
+    private List<Track> tracks = new ArrayList<>();
+
+    @OneToMany(mappedBy = "music", cascade = CascadeType.ALL)
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    @JsonIgnore
+    private List<Remix> remixes = new ArrayList<>();
 }
