@@ -29,7 +29,8 @@ services:
       - umc_code_play
     restart: always
     depends_on:
-      - database
+      database:
+        condition: service_healthy
 
 networks:
   umc_code_play:
