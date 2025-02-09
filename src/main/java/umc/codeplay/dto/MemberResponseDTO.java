@@ -41,14 +41,15 @@ public class MemberResponseDTO {
     @NoArgsConstructor
     @AllArgsConstructor
     public static class GetMyHarmonyDTO {
-        // 화성분석Id,,음원Id,음원제목, 생성 날짜, 키, bpm, 평균음압, 즐겨찾기 여부
+        // 화성분석Id, 음원Id, 음원제목, 생성 날짜, 키, bpm, 평균음압, 즐겨찾기 여부
         Long harmonyId;
         Long musicId;
         String musicTitle;
         LocalDateTime createdAt;
-        String harmonyKey;
+        String scale;
+        String genre;
         Integer bpm;
-        Integer soundPressure;
+        String voiceColor;
         Boolean isLiked;
     }
 
@@ -57,15 +58,17 @@ public class MemberResponseDTO {
     @NoArgsConstructor
     @AllArgsConstructor
     public static class GetMyTrackDTO {
-        // 세션 분리 id, 음원 id, 음원 제목, 생성일자, 좋아요여부, 기타 파일 url, 드럼 파일 url, 키보드파일 url
+        // 세션 분리 harmonyId, 음원 harmonyId, 음원 제목, 생성일자, 보컬 파일 url, 반주 url, 베이스 파일 url, 드럼 파일 url,
+        // 즐겨찾기 여부
         Long trackId;
         Long musicId;
         String musicTitle;
         LocalDateTime createdAt;
+        String vocalUrl;
+        String instrumentalUrl;
+        String bassUrl;
+        String drumsUrl;
         Boolean isLiked;
-        String guitarUrl;
-        String drumUrl;
-        String keyboardUrl;
     }
 
     @Builder

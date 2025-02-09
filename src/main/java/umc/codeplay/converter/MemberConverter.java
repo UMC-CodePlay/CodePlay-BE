@@ -54,11 +54,12 @@ public class MemberConverter {
         return MemberResponseDTO.GetMyHarmonyDTO.builder()
                 .harmonyId(harmony.getId())
                 .musicId(harmony.getMusic().getId())
-                .musicTitle(harmony.getMusic().getTitle())
+                .musicTitle(harmony.getTitle())
                 .createdAt(harmony.getCreatedAt())
-                .harmonyKey(harmony.getHarmonyKey())
+                .scale(harmony.getScale())
+                .genre(harmony.getGenre())
                 .bpm(harmony.getBpm())
-                .soundPressure(harmony.getSoundPressure())
+                .voiceColor(harmony.getVoiceColor())
                 .isLiked(
                         likeService.isLikedByUser(
                                 member, harmony.getMusic())) // LikeService에서 좋아요 여부 확인
@@ -69,11 +70,12 @@ public class MemberConverter {
         return MemberResponseDTO.GetMyTrackDTO.builder()
                 .trackId(track.getId())
                 .musicId(track.getMusic().getId())
-                .musicTitle(track.getMusic().getTitle())
+                .musicTitle(track.getTitle())
                 .createdAt(track.getCreatedAt())
-                .guitarUrl(track.getGuitarUrl())
-                .drumUrl(track.getDrumUrl())
-                .keyboardUrl(track.getKeyboardUrl())
+                .bassUrl(track.getBassUrl())
+                .instrumentalUrl(track.getInstrumentalUrl())
+                .bassUrl(track.getBassUrl())
+                .drumsUrl(track.getDrumsUrl())
                 .isLiked(
                         likeService.isLikedByUser(
                                 member, track.getMusic())) // LikeService에서 좋아요 여부 확인
