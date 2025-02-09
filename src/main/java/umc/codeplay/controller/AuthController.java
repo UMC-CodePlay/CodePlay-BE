@@ -46,7 +46,7 @@ public class AuthController {
             throw new GeneralHandler(ErrorStatus.AUTHORIZATION_METHOD_ERROR);
         }
 
-        // 아이디/비밀번호를 사용해 AuthenticationToken 생성
+        // 이메일/비밀번호를 사용해 AuthenticationToken 생성
         UsernamePasswordAuthenticationToken authToken =
                 new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword());
 
@@ -56,7 +56,6 @@ public class AuthController {
 
             // Role 정보 가져오기
             Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
-
             // 인증에 성공했다면, JWT 토큰 생성 후 반환
             String token = jwtUtil.generateToken(authentication.getName(), authorities);
             String refreshToken =
@@ -86,7 +85,7 @@ public class AuthController {
         if (jwtUtil.validateToken(refreshToken)
                 && (jwtUtil.getTypeFromToken(refreshToken).equals("refresh"))) {
             // 리프레시 토큰에서 사용자명 추출
-            String usernameFromToken = jwtUtil.getUsernameFromToken(refreshToken);
+            String usernameFromToken = jwtUtil.getEmailFromToken(refreshToken);
 
             if (!email.equals(usernameFromToken)) {
                 throw new GeneralHandler(ErrorStatus.INVALID_REFRESH_TOKEN);

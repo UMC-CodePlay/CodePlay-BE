@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 import lombok.RequiredArgsConstructor;
 
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import umc.codeplay.apiPayLoad.ApiResponse;
 import umc.codeplay.domain.enums.FileType;
 import umc.codeplay.dto.FileResponseDTO;
@@ -19,6 +20,7 @@ import static umc.codeplay.service.FileService.buildFilename;
 @RestController
 @RequestMapping("/files")
 @RequiredArgsConstructor
+@Tag(name = "file-controller", description = "모든 파일(사진, 음성)을 s3에 올릴 때 사용하는 api")
 public class FileController {
 
     private final FileService fileService;

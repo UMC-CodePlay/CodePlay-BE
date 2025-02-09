@@ -37,7 +37,12 @@ public enum ErrorStatus implements BaseErrorCode {
     LIKE_ALREADY_EXIST(HttpStatus.BAD_REQUEST, "LIKE401", "이미 좋아요 목록에 추가된 음원입니다."),
 
     EMAIL_SEND_ERROR(HttpStatus.BAD_REQUEST, "EMAIL400", "메일 발송에 실패하였습니다."),
-    EMAIL_CODE_ERROR(HttpStatus.BAD_REQUEST, "EMAIL401", "유효한 코드가 아닙니다.");
+    EMAIL_CODE_ERROR(HttpStatus.BAD_REQUEST, "EMAIL401", "유효한 코드가 아닙니다."),
+
+    TASK_NOT_FOUND(HttpStatus.BAD_REQUEST, "TASK400", "해당 task를 찾을 수 없습니다."),
+    HARMONY_NOT_FOUND(HttpStatus.BAD_REQUEST, "HARMONY400", "해당 화성 분석 결과를 찾을 수 없습니다."),
+    TRACK_NOT_FOUND(HttpStatus.BAD_REQUEST, "TRACK400", "해당 트랙 분리 결과를 찾을 수 없습니다."),
+    REMIX_NOT_FOUND(HttpStatus.BAD_REQUEST, "REMIX400", "해당 리믹스 결과를 찾을 수 없습니다.");
 
     private final HttpStatus httpStatus;
     private final String code;

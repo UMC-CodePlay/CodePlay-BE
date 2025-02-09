@@ -11,9 +11,6 @@ public class MemberRequestDTO {
     @Getter
     public static class JoinDto {
 
-        @NotBlank(message = "이름은 필수 입력값입니다.")
-        String name;
-
         @NotBlank(message = "이메일은 필수 입력값입니다.")
         @Email(message = "이메일 형식이 아닙니다.")
         String email;
@@ -49,9 +46,17 @@ public class MemberRequestDTO {
     @Setter
     public static class UpdateMemberDTO {
 
-        @NotBlank(message = "비밀번호는 필수 입력값입니다.")
-        String password;
+        @NotBlank(message = "기존 비밀번호는 필수 입력값입니다.")
+        String currentPassword;
 
-        String profileUrl; // 프로필 사진 URL
+        @NotBlank(message = "새로운 비밀번호는 필수 입력값입니다.")
+        String newPassword;
+    }
+
+    @Getter
+    public static class SearchByMusicTitleDTO {
+
+        @NotBlank(message = "음원 제목은 필수 입력값입니다.")
+        String musicTitle;
     }
 }
