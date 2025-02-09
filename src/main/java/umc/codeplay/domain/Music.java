@@ -7,6 +7,8 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 import umc.codeplay.domain.common.BaseEntity;
 import umc.codeplay.domain.mapping.MusicLike;
 
@@ -24,14 +26,30 @@ public class Music extends BaseEntity {
     @Column(nullable = false, length = 100)
     private String title;
 
+    @Column(columnDefinition = "TEXT", nullable = false)
+    private String musicUrl;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id", nullable = false)
     private Member member;
 
-    @Column(columnDefinition = "TEXT", nullable = false)
-    private String musicUrl;
-
     @OneToMany(mappedBy = "music", cascade = CascadeType.ALL)
+    @OnDelete(action = OnDeleteAction.CASCADE)
     @JsonIgnore
     private List<MusicLike> likeList = new ArrayList<>();
+
+    @OneToMany(mappedBy = "music", cascade = CascadeType.ALL)
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    @JsonIgnore
+    private List<Harmony> harmonies = new ArrayList<>();
+
+    @OneToMany(mappedBy = "music", cascade = CascadeType.ALL)
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    @JsonIgnore
+    private List<Track> tracks = new ArrayList<>();
+
+    @OneToMany(mappedBy = "music", cascade = CascadeType.ALL)
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    @JsonIgnore
+    private List<Remix> remixes = new ArrayList<>();
 }
