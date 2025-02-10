@@ -15,6 +15,8 @@ import org.springframework.web.servlet.view.RedirectView;
 import lombok.RequiredArgsConstructor;
 
 import io.swagger.v3.oas.annotations.Hidden;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import umc.codeplay.apiPayLoad.ApiResponse;
 import umc.codeplay.apiPayLoad.code.status.ErrorStatus;
 import umc.codeplay.apiPayLoad.exception.handler.GeneralHandler;
@@ -31,6 +33,7 @@ import umc.codeplay.service.MemberService;
 @RequestMapping("/oauth")
 @RequiredArgsConstructor
 @Validated
+@Tag(name = "oauth-controller", description = "외부 소셜 로그인 서비스 연동 API, JWT 토큰 헤더 포함을 필요로 하지 않습니다.")
 public class OAuthController {
 
     private final JwtUtil jwtUtil;
@@ -40,6 +43,10 @@ public class OAuthController {
     private final MemberService memberService;
 
     @GetMapping("/authorize/{provider}")
+    @Operation(
+            summary = "소셜 로그인 서비스로 로그인합니다.",
+            description =
+                    "{provider}엔 google, kakao 가 들어갈 수 있습니다. 해당 소셜 로그인 서비스로 리다이렉트합니다. 로그인이 완료되면 스프링 서버에서 사용 가능한 JWT 토큰/리프레시 토큰을 반환합니다.")
     public RedirectView redirectToOAuth(@PathVariable("provider") String provider) {
         // CSRF 방어용 state, PKCE(code_challenge)..는 굳이
         BaseOAuthProperties properties =
