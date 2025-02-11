@@ -1,7 +1,6 @@
 package umc.codeplay.dto;
 
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.*;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -58,5 +57,36 @@ public class MemberRequestDTO {
 
         @NotBlank(message = "음원 제목은 필수 입력값입니다.")
         String musicTitle;
+    }
+
+    @Getter
+    public static class TaskDTO {
+
+        @NotNull(message = "음원 id 는 필수 입력값입니다.") Long musicId;
+
+        @NotBlank(message = "빈칸이라도 아무거나 보내주세요.")
+        String twoStemConfig;
+    }
+
+    @Getter
+    public static class RemixTaskDTO {
+
+        @NotNull(message = "음원 id 는 필수 입력값입니다.") private Long musicId;
+
+        private Long parentRemixId;
+
+        @Min(value = -12, message = "음원 id 는 -12 이상의 값이어야 합니다.")
+        @Max(value = 12, message = "음원 id 는 12 이하의 값이어야 합니다.")
+        private Integer scaleModulation;
+
+        @DecimalMin(value = "0.1", message = "음원 id 는 0.1 이상의 값이어야 합니다.")
+        @DecimalMax(value = "4.0", message = "음원 id 는 4.0 이하의 값이어야 합니다.")
+        private Double tempoRatio;
+
+        @DecimalMin(value = "0.0", message = "음원 id 는 0.0 이상의 값이어야 합니다.")
+        @DecimalMax(value = "1.0", message = "음원 id 는 1.0 이하의 값이어야 합니다.")
+        private Double reverbAmount;
+
+        private Boolean isChorusOn;
     }
 }

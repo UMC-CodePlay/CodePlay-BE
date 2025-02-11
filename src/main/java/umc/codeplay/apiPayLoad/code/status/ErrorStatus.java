@@ -42,7 +42,11 @@ public enum ErrorStatus implements BaseErrorCode {
     TASK_NOT_FOUND(HttpStatus.BAD_REQUEST, "TASK400", "해당 task를 찾을 수 없습니다."),
     HARMONY_NOT_FOUND(HttpStatus.BAD_REQUEST, "HARMONY400", "해당 화성 분석 결과를 찾을 수 없습니다."),
     TRACK_NOT_FOUND(HttpStatus.BAD_REQUEST, "TRACK400", "해당 트랙 분리 결과를 찾을 수 없습니다."),
-    REMIX_NOT_FOUND(HttpStatus.BAD_REQUEST, "REMIX400", "해당 리믹스 결과를 찾을 수 없습니다.");
+    REMIX_NOT_FOUND(HttpStatus.BAD_REQUEST, "REMIX400", "해당 리믹스 결과를 찾을 수 없습니다."),
+    REMIX_NO_CHANGE(HttpStatus.BAD_REQUEST, "REMIX401", "변경 사항이 없습니다."),
+    JOB_TYPE_NOT_FOUND(HttpStatus.BAD_REQUEST, "JOB400", "해당 작업 타입을 찾을 수 없습니다."),
+
+    SQS_SEND_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "SQS500", "SQS 메시지 전송에 실패하였습니다.");
 
     private final HttpStatus httpStatus;
     private final String code;
