@@ -43,6 +43,12 @@ public class MemberRequestDTO {
     }
 
     @Getter
+    public static class ChangePasswordDTO {
+        String email;
+        String newPassword;
+    }
+
+    @Getter
     @Setter
     public static class UpdateMemberDTO {
 
