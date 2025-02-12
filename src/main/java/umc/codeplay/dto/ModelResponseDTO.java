@@ -30,4 +30,12 @@ public class ModelResponseDTO {
     public static class RemixResponseDTO {
         Long remixId;
     }
+
+    @Builder
+    @Getter
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class TaskFailDTO {
+        Long taskId;
+    }
 }

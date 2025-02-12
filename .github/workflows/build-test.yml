@@ -14,6 +14,7 @@ jobs:
       AWS_DEFAULT_REGION: ${{ secrets.AWS_DEFAULT_REGION }}
       S3_BUCKET: ${{ secrets.S3_BUCKET }}
       JWT_SECRET: ${{ secrets.JWT_SECRET }}
+      SQS_QUEUE_NAME: ${{ secrets.SQS_QUEUE_NAME }}
       # GOOGLE_CLIENT_ID: ${{ secrets.GOOGLE_CLIENT_ID }}
       # GOOGLE_CLIENT_SECRET: ${{ secrets.GOOGLE_CLIENT_SECRET }}
       # GOOGLE_REDIRECT_URI: ${{ secrets.GOOGLE_REDIRECT_URI }}
