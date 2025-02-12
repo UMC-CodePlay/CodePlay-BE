@@ -68,7 +68,7 @@ public class MemberRequestDTO {
     @Getter
     public static class StemTaskDTO {
 
-        @NotNull(message = "음원 id 는 필수 입력값입니다.") Long musicId;
+        @NotNull(message = "음원 id는 필수 입력값입니다.") Long musicId;
 
         @NotBlank(message = "빈칸이라도 아무거나 보내주세요.")
         String twoStemConfig;
@@ -77,26 +77,26 @@ public class MemberRequestDTO {
     @Getter
     public static class HarmonyTaskDTO {
 
-        @NotNull(message = "음원 id 는 필수 입력값입니다.") private Long musicId;
+        @NotNull(message = "음원 id는 필수 입력값입니다.") private Long musicId;
     }
 
     @Getter
     public static class RemixTaskDTO {
 
-        @NotNull(message = "음원 id 는 필수 입력값입니다.") private Long musicId;
+        @NotNull(message = "음원 id는 필수 입력값입니다.") private Long musicId;
 
         private Long parentRemixId;
 
-        @Min(value = -12, message = "음원 id 는 -12 이상의 값이어야 합니다.")
-        @Max(value = 12, message = "음원 id 는 12 이하의 값이어야 합니다.")
+        @Min(value = -12, message = "스케일 변경값은 -12 이상의 값이어야 합니다.")
+        @Max(value = 12, message = "스케일 변경값은 12 이하의 값이어야 합니다.")
         private Integer scaleModulation;
 
-        @DecimalMin(value = "0.1", message = "음원 id 는 0.1 이상의 값이어야 합니다.")
-        @DecimalMax(value = "4.0", message = "음원 id 는 4.0 이하의 값이어야 합니다.")
+        @DecimalMin(value = "0.1", message = "템포 배속값은 0.1 이상의 값이어야 합니다.")
+        @DecimalMax(value = "4.0", message = "템포 배속값은 4.0 이하의 값이어야 합니다.")
         private Double tempoRatio;
 
-        @DecimalMin(value = "0.0", message = "음원 id 는 0.0 이상의 값이어야 합니다.")
-        @DecimalMax(value = "1.0", message = "음원 id 는 1.0 이하의 값이어야 합니다.")
+        @DecimalMin(value = "0.0", message = "리버브 값은 0.0 이상의 값이어야 합니다.")
+        @DecimalMax(value = "1.0", message = "리버브 값은 1.0 이하의 값이어야 합니다.")
         private Double reverbAmount;
 
         private Boolean isChorusOn;
@@ -105,6 +105,6 @@ public class MemberRequestDTO {
     @Getter
     public static class getTaskDTO {
 
-        @NotNull(message = "task id 는 필수 입력값입니다.") Long taskId;
+        @NotNull(message = "task id는 필수 입력값입니다.") Long taskId;
     }
 }
