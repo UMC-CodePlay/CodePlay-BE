@@ -60,12 +60,18 @@ public class MemberRequestDTO {
     }
 
     @Getter
-    public static class TaskDTO {
+    public static class StemTaskDTO {
 
         @NotNull(message = "음원 id 는 필수 입력값입니다.") Long musicId;
 
         @NotBlank(message = "빈칸이라도 아무거나 보내주세요.")
         String twoStemConfig;
+    }
+
+    @Getter
+    public static class HarmonyTaskDTO {
+
+        @NotNull(message = "음원 id 는 필수 입력값입니다.") private Long musicId;
     }
 
     @Getter
@@ -88,5 +94,11 @@ public class MemberRequestDTO {
         private Double reverbAmount;
 
         private Boolean isChorusOn;
+    }
+
+    @Getter
+    public static class getTaskDTO {
+
+        @NotNull(message = "task id 는 필수 입력값입니다.") Long taskId;
     }
 }

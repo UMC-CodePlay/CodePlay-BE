@@ -1,7 +1,5 @@
 package umc.codeplay.service;
 
-import java.util.Optional;
-
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -72,14 +70,25 @@ public class ModelService {
 
         Task task = taskService.addTask(music, JobType.TRACK);
 
+        if (config == null) {
+            config = "none";
+        }
+
+        switch (config) {
+            case "vocals", "bass", "drums", "none": // TODO: 6-stems guitar, piano 테스트 후 추가
+                break;
+            default:
+                throw new GeneralException(ErrorStatus.INVALID_CONFIG);
+        }
+
         try {
             sqsTemplate.send(
                     queueName,
                     SQSMessageDTO.TrackMessageDTO.builder()
-                            .key("resultFiles/" + music.getTitle())
+                            .key(music.getTitle())
                             .taskId(task.getId())
                             .jobType(JobType.TRACK.toString())
-                            .twoStemConfig(Optional.ofNullable(config).orElse("none"))
+                            .twoStemConfig(config)
                             .build());
         } catch (Exception e) {
             throw new GeneralException(ErrorStatus.SQS_SEND_ERROR);
@@ -96,7 +105,7 @@ public class ModelService {
             sqsTemplate.send(
                     queueName,
                     SQSMessageDTO.HarmonyMessageDTO.builder()
-                            .key("resultFiles/" + music.getTitle())
+                            .key(music.getTitle())
                             .taskId(task.getId())
                             .jobType(JobType.HARMONY.toString())
                             .build());
@@ -137,7 +146,7 @@ public class ModelService {
 
         Task task = taskService.addTask(newRemix);
 
-        remixPayLoad.setKey("resultFiles/" + music.getTitle());
+        remixPayLoad.setKey(music.getTitle());
         remixPayLoad.setTaskId(task.getId());
         remixPayLoad.setJobType(JobType.REMIX.toString());
 

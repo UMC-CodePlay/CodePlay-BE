@@ -45,6 +45,7 @@ public enum ErrorStatus implements BaseErrorCode {
     REMIX_NOT_FOUND(HttpStatus.BAD_REQUEST, "REMIX400", "해당 리믹스 결과를 찾을 수 없습니다."),
     REMIX_NO_CHANGE(HttpStatus.BAD_REQUEST, "REMIX401", "변경 사항이 없습니다."),
     JOB_TYPE_NOT_FOUND(HttpStatus.BAD_REQUEST, "JOB400", "해당 작업 타입을 찾을 수 없습니다."),
+    INVALID_CONFIG(HttpStatus.BAD_REQUEST, "TRACK400", "유효하지 않은 설정입니다."),
 
     SQS_SEND_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "SQS500", "SQS 메시지 전송에 실패하였습니다.");
 
