@@ -3,6 +3,7 @@ package umc.codeplay.controller;
 import java.util.Collection;
 import java.util.stream.Collectors;
 import jakarta.mail.MessagingException;
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
@@ -20,6 +21,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import umc.codeplay.apiPayLoad.ApiResponse;
 import umc.codeplay.apiPayLoad.code.status.ErrorStatus;
+import umc.codeplay.apiPayLoad.exception.GeneralException;
 import umc.codeplay.apiPayLoad.exception.handler.GeneralHandler;
 import umc.codeplay.converter.MemberConverter;
 import umc.codeplay.domain.Member;
@@ -120,6 +122,9 @@ public class AuthController {
     }
 
     // 비밀번호 찾기 및 변경. 이메일 인증
+    @Operation(
+            summary = "비밀번호 찾기 -> 이메일 요청",
+            description = "이메일을 통해 인증번호 전송 요청 api, 인증번호는 5분간 유효합니다.")
     @PostMapping("/password/reset/request")
     public ApiResponse<String> resetPasswordRequest(
             @RequestBody MemberRequestDTO.ResetPasswordDTO request) throws MessagingException {
@@ -128,15 +133,37 @@ public class AuthController {
     }
 
     // 비밀번호 찾기 및 변경. 인증 코드 확인
+    @Operation(summary = "비밀번호 찾기 -> 이메일 인증하기", description = "인증번호 인증하는 api")
     @PostMapping("/password/reset/verify")
     public ApiResponse<String> resetPasswordVerify(
             @RequestBody MemberRequestDTO.CheckVerificationCodeDTO request) {
         boolean isValid = emailService.verifyCode(request.getEmail(), request.getCode());
         if (isValid) {
+            emailService.markVerified(request.getEmail());
             return ApiResponse.onSuccess("인증에 성공하였습니다.");
             // 이후에 비밀번호 변경 페이지 연결해 주어야 함.
         } else {
             throw new GeneralHandler(ErrorStatus.EMAIL_CODE_ERROR);
+        }
+    }
+
+    // 비밀번호 잊었을 때 -> 변경
+    @Operation(summary = "비밀번호 찾기 -> 재설정", description = "비밀번호 찾기에서 비밀번호 재설정 하는 api")
+    @PostMapping("/password/reset/change")
+    public ApiResponse<String> changePassword(
+            @RequestBody @Valid MemberRequestDTO.ChangePasswordDTO request) {
+        String email = request.getEmail();
+
+        // 인증 확인
+        if (!emailService.isVerified(email)) {
+            throw new GeneralException(ErrorStatus.EMAIL_NOT_VERIFIED);
+        }
+        boolean isChanged = memberService.newPassword(email, request.getNewPassword());
+        if (isChanged) {
+            emailService.invalidateVerificationCode(email);
+            return ApiResponse.onSuccess("비밀번호 변경이 완료되었습니다.");
+        } else {
+            throw new GeneralException(ErrorStatus.PASSWORD_CHANGE_FAILED);
         }
     }
 }

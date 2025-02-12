@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import lombok.RequiredArgsConstructor;
 
 import umc.codeplay.apiPayLoad.code.status.ErrorStatus;
+import umc.codeplay.apiPayLoad.exception.GeneralException;
 import umc.codeplay.apiPayLoad.exception.handler.GeneralHandler;
 import umc.codeplay.converter.MemberConverter;
 import umc.codeplay.domain.Harmony;
@@ -155,5 +156,19 @@ public class MemberService {
         return tracks.stream()
                 .map(track -> memberConverter.toGetMyTrackDTO(track, member))
                 .collect(Collectors.toList());
+    }
+
+    // 비밀번호 찾기 이후 변경
+    @Transactional
+    public boolean newPassword(String email, String newPassword) {
+
+        Member member =
+                memberRepository
+                        .findByEmail(email)
+                        .orElseThrow(() -> new GeneralException(ErrorStatus.MEMBER_NOT_FOUND));
+
+        member.encodePassword(passwordEncoder.encode(newPassword));
+        memberRepository.save(member);
+        return true;
     }
 }
