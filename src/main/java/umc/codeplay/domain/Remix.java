@@ -50,6 +50,7 @@ public class Remix extends BaseEntity {
     @JoinColumn(name = "music_id", nullable = false)
     private Music music;
 
+    @Setter
     @ManyToOne(fetch = FetchType.LAZY)
     @Comment("이전 단계 리믹스 ID")
     @JoinColumn(name = "parent_remix_id")

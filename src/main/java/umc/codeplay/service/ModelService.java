@@ -124,6 +124,9 @@ public class ModelService {
 
         if (request.getParentRemixId() != null) {
             parentRemix = remixRepository.findByIdOrThrow(request.getParentRemixId());
+            if (!parentRemix.getMusic().getId().equals(music.getId())) {
+                throw new GeneralException(ErrorStatus.INVALID_PARENT_REMIX);
+            }
             remixPayLoad.setRemix(parentRemix, request);
         } else {
             remixPayLoad.setRemix(request);
@@ -140,6 +143,7 @@ public class ModelService {
                                 .build());
 
         if (parentRemix != null) {
+            newRemix.setParentRemix(parentRemix);
             parentRemix.getChildRemixList().add(newRemix);
             remixRepository.save(parentRemix);
         }

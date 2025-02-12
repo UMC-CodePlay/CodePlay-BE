@@ -34,7 +34,7 @@ public class TaskController {
     @Operation(summary = "화성분석 작업 요청", description = "음악 ID를 받아 화성분석 작업을 요청합니다.")
     @PostMapping("/harmony")
     public ApiResponse<MemberResponseDTO.TaskProgressDTO> requestHarmonyTask(
-            @RequestBody MemberRequestDTO.HarmonyTaskDTO request) {
+            @RequestBody @Validated MemberRequestDTO.HarmonyTaskDTO request) {
         Music music = musicService.findById(request.getMusicId());
 
         Task task = modelService.sendHarmonyMessage(music);
@@ -45,7 +45,7 @@ public class TaskController {
     @Operation(summary = "스템분리 작업 요청", description = "음악 ID와 스템분리 설정을 받아 스템분리 작업을 요청합니다.")
     @PostMapping("/stem")
     public ApiResponse<MemberResponseDTO.TaskProgressDTO> requestStemTask(
-            @RequestBody MemberRequestDTO.StemTaskDTO request) {
+            @RequestBody @Validated MemberRequestDTO.StemTaskDTO request) {
         Music music = musicService.findById(request.getMusicId());
 
         Task task = modelService.sendTrackMessage(music, request.getTwoStemConfig());
@@ -56,7 +56,7 @@ public class TaskController {
     @Operation(summary = "리믹스 작업 요청", description = "음악 ID와 리믹스 설정을 받아 리믹스 작업을 요청합니다.")
     @PostMapping("/remix")
     public ApiResponse<MemberResponseDTO.TaskProgressDTO> requestRemixTask(
-            @RequestBody MemberRequestDTO.RemixTaskDTO request) {
+            @RequestBody @Validated MemberRequestDTO.RemixTaskDTO request) {
         Music music = musicService.findById(request.getMusicId());
 
         Task task = modelService.sendRemixMessage(music, request);
@@ -67,7 +67,7 @@ public class TaskController {
     @Operation(summary = "작업 조회", description = "작업 ID를 받아 작업 상태를 조회합니다.")
     @PostMapping("/get-task")
     public ApiResponse<MemberResponseDTO.TaskProgressDTO> getTask(
-            @RequestBody MemberRequestDTO.getTaskDTO request) {
+            @RequestBody @Validated MemberRequestDTO.getTaskDTO request) {
         Task task = taskService.findById(request.getTaskId());
         return ApiResponse.onSuccess(MemberConverter.toTaskProgressDTO(task));
     }
