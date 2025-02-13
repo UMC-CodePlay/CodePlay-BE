@@ -38,11 +38,20 @@ public enum ErrorStatus implements BaseErrorCode {
 
     EMAIL_SEND_ERROR(HttpStatus.BAD_REQUEST, "EMAIL400", "메일 발송에 실패하였습니다."),
     EMAIL_CODE_ERROR(HttpStatus.BAD_REQUEST, "EMAIL401", "유효한 코드가 아닙니다."),
+    EMAIL_NOT_VERIFIED(HttpStatus.BAD_REQUEST, "EMAIL402", "인증되지 않은 이메일입니다."),
+
+    PASSWORD_CHANGE_FAILED(HttpStatus.BAD_REQUEST, "PASSWORD400", "비밀번호 재설정이 실패하였습니다."),
 
     TASK_NOT_FOUND(HttpStatus.BAD_REQUEST, "TASK400", "해당 task를 찾을 수 없습니다."),
     HARMONY_NOT_FOUND(HttpStatus.BAD_REQUEST, "HARMONY400", "해당 화성 분석 결과를 찾을 수 없습니다."),
     TRACK_NOT_FOUND(HttpStatus.BAD_REQUEST, "TRACK400", "해당 트랙 분리 결과를 찾을 수 없습니다."),
-    REMIX_NOT_FOUND(HttpStatus.BAD_REQUEST, "REMIX400", "해당 리믹스 결과를 찾을 수 없습니다.");
+    REMIX_NOT_FOUND(HttpStatus.BAD_REQUEST, "REMIX400", "해당 리믹스 결과를 찾을 수 없습니다."),
+    REMIX_NO_CHANGE(HttpStatus.BAD_REQUEST, "REMIX401", "변경 사항이 없습니다."),
+    JOB_TYPE_NOT_FOUND(HttpStatus.BAD_REQUEST, "JOB400", "해당 작업 타입을 찾을 수 없습니다."),
+    INVALID_CONFIG(HttpStatus.BAD_REQUEST, "TRACK400", "유효하지 않은 설정입니다."),
+    INVALID_PARENT_REMIX(HttpStatus.BAD_REQUEST, "REMIX402", "유효하지 않은 부모 리믹스입니다."),
+
+    SQS_SEND_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "SQS500", "SQS 메시지 전송에 실패하였습니다.");
 
     private final HttpStatus httpStatus;
     private final String code;

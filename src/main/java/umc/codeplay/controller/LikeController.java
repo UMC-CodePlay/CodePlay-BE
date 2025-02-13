@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import lombok.RequiredArgsConstructor;
 
+import io.swagger.v3.oas.annotations.Operation;
 import umc.codeplay.apiPayLoad.ApiResponse;
 import umc.codeplay.converter.MusicLikeConverter;
 import umc.codeplay.domain.Music;
@@ -23,6 +24,7 @@ public class LikeController {
 
     private final LikeService likeService;
 
+    @Operation(summary = "좋아요 추가")
     @PostMapping("/like/add")
     public ApiResponse<LikeResponseDTO.addLikeResponseDTO> addLike(
             @RequestBody @Valid LikeRequestDTO.addLikeRequestDTO request) {
@@ -34,6 +36,7 @@ public class LikeController {
         return ApiResponse.onSuccess(MusicLikeConverter.toLikeResponseDTO(like));
     }
 
+    @Operation(summary = "좋아요 취소")
     @PostMapping("/like/remove")
     public ApiResponse<LikeResponseDTO.removeLikeResponseDTO> removeLike(
             @RequestBody @Valid LikeRequestDTO.removeLikeRequestDTO request) {

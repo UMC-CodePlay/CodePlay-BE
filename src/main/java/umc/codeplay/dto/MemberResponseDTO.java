@@ -80,4 +80,15 @@ public class MemberResponseDTO {
         private List<GetMyHarmonyDTO> harmonies;
         private List<GetMyTrackDTO> tracks;
     }
+
+    @Builder
+    @Getter
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class TaskProgressDTO {
+        Long taskId;
+        String processStatus;
+        String jobType;
+        Long jobId;
+    }
 }

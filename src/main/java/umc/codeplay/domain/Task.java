@@ -21,6 +21,7 @@ public class Task extends BaseEntity {
     // TODO: 추후 BigInteger로 변환
     private Long id;
 
+    @Setter
     @Enumerated(EnumType.STRING)
     @Comment("task 진행 상태")
     @Builder.Default

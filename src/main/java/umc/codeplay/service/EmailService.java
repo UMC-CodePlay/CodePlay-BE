@@ -80,9 +80,27 @@ public class EmailService {
             return false;
         }
         if (verificationCode.getExpires().isBefore(LocalDateTime.now())) {
-            verificationCodes.remove(email); // 만료 코드 삭제
+            verificationCodes.remove(email); // 만료된 코드 삭제
             return false;
         }
         return verificationCode.getCode().equals(code);
+    }
+
+    // 인증상태 저장
+    private final Map<String, Boolean> verifiedEmails = new ConcurrentHashMap<>();
+
+    // 인증 성공 시, 인증상태 변경
+    public void markVerified(String email) {
+        verifiedEmails.put(email, true);
+    }
+
+    // 인증 상태인지 확인
+    public boolean isVerified(String email) {
+        return verifiedEmails.getOrDefault(email, false);
+    }
+
+    // 변경 이후 인증 상태 초기화
+    public void invalidateVerificationCode(String email) {
+        verifiedEmails.remove(email);
     }
 }
