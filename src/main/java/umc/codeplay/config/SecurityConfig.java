@@ -49,7 +49,7 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         AuthenticationEntryPoint entryPoint = new CustomAuthenticationEntryPoint(objectMapper);
-        http
+        http.cors(Customizer.withDefaults())
                 // 세션을 사용하지 않도록 설정
                 .sessionManagement(
                         session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
