@@ -17,7 +17,7 @@ public class WebConfig implements WebMvcConfigurer {
                 .allowedOrigins("*") // 모든 출처로 부터 요청 허용 - TODO: 변경해야 함
                 .allowedMethods(ALLOWED_METHOD_NAMES)
                 .allowedHeaders("Content-Type", "Authorization")
-                .maxAge(3600); // 캐싱 시간 설정
-        // .exposedHeaders("Authorization") // 클라이언트가 접근할 수 있는 헤더
+                .maxAge(3600) // 캐싱시간 설정
+                .exposedHeaders("Authorization"); // 클라이언트가 접근할 수 있는 헤더
     }
 }
