@@ -73,7 +73,7 @@ public class MemberConverter {
                 .musicId(track.getMusic().getId())
                 .musicTitle(track.getTitle())
                 .createdAt(track.getCreatedAt())
-                .bassUrl(track.getBassUrl())
+                .vocalUrl(track.getVocalUrl())
                 .instrumentalUrl(track.getInstrumentalUrl())
                 .bassUrl(track.getBassUrl())
                 .drumsUrl(track.getDrumsUrl())
