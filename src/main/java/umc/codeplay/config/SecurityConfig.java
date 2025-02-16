@@ -49,7 +49,7 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         AuthenticationEntryPoint entryPoint = new CustomAuthenticationEntryPoint(objectMapper);
-        http
+        http.cors(Customizer.withDefaults())
                 // 세션을 사용하지 않도록 설정
                 .sessionManagement(
                         session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
@@ -60,11 +60,12 @@ public class SecurityConfig {
                                 auth
                                         // 로그인, 회원가입 등 토큰 없이 접근해야 하는 API 허용
                                         .requestMatchers(
+                                                "/python-model/**",
                                                 "/oauth/**",
                                                 "/health",
                                                 "/health/s3",
                                                 "/auth/**",
-                                                "/member/**",
+                                                "/member/**", // ??
                                                 "/v2/api-docs",
                                                 "/v3/api-docs",
                                                 "/v3/api-docs/**",

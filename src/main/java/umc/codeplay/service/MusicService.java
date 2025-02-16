@@ -26,4 +26,10 @@ public class MusicService {
 
         musicRepository.deleteById(id);
     }
+
+    public Music findById(Long id) {
+        return musicRepository
+                .findById(id)
+                .orElseThrow(() -> new GeneralException(ErrorStatus.MUSIC_NOT_FOUND));
+    }
 }

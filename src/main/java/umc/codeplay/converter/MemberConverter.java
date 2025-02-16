@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 
 import umc.codeplay.domain.Harmony;
 import umc.codeplay.domain.Member;
+import umc.codeplay.domain.Task;
 import umc.codeplay.domain.Track;
 import umc.codeplay.domain.enums.Role;
 import umc.codeplay.domain.enums.SocialStatus;
@@ -79,6 +80,15 @@ public class MemberConverter {
                 .isLiked(
                         likeService.isLikedByUser(
                                 member, track.getMusic())) // LikeService에서 좋아요 여부 확인
+                .build();
+    }
+
+    public static MemberResponseDTO.TaskProgressDTO toTaskProgressDTO(Task task) {
+        return MemberResponseDTO.TaskProgressDTO.builder()
+                .taskId(task.getId())
+                .processStatus(task.getStatus().toString())
+                .jobType(task.getJobType().toString())
+                .jobId(task.getJobId())
                 .build();
     }
 }
