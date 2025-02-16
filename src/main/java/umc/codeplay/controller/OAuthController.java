@@ -92,8 +92,8 @@ public class OAuthController {
                 // (3-b) 카카오 UserInfo Endpoint 로 이메일, 프로필 등 조회
                 Map<String, Object> kakaoAccount =
                         (Map<String, Object>) userInfo.get("kakao_account");
-                Map<String, Object> kakaoProperties =
-                        (Map<String, Object>) userInfo.get("properties");
+                //                Map<String, Object> kakaoProperties =
+                //                        (Map<String, Object>) userInfo.get("properties");
                 email = (String) kakaoAccount.get("email");
                 //                name = (String) kakaoProperties.get("nickname");
             }
