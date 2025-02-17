@@ -24,6 +24,7 @@ public class MemberResponseDTO {
     @AllArgsConstructor
     public static class LoginResultDTO {
         String email;
+        String profileUrl;
         String token;
         String refreshToken;
     }

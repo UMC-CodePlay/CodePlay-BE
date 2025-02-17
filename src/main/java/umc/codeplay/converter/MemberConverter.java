@@ -33,10 +33,11 @@ public class MemberConverter {
     }
 
     public static MemberResponseDTO.LoginResultDTO toLoginResultDTO(
-            String email, String token, String refreshToken) {
+            String email, String profileUrl, String token, String refreshToken) {
 
         return MemberResponseDTO.LoginResultDTO.builder()
                 .email(email)
+                .profileUrl(profileUrl)
                 .token(token)
                 .refreshToken(refreshToken)
                 .build();

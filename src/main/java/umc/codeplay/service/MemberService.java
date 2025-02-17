@@ -41,6 +41,13 @@ public class MemberService {
             "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
     private static final SecureRandom RANDOM = new SecureRandom();
 
+    public String getMemberProfileImage(String email) {
+        return memberRepository
+                .findByEmail(email)
+                .orElseThrow(() -> new GeneralHandler(ErrorStatus.MEMBER_NOT_FOUND))
+                .getProfileUrl();
+    }
+
     public Member joinMember(MemberRequestDTO.JoinDto request) {
 
         if (memberRepository.findByEmail(request.getEmail()).isPresent()) {
