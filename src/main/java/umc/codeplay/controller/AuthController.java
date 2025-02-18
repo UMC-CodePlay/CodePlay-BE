@@ -68,9 +68,14 @@ public class AuthController {
             String token = jwtUtil.generateToken(authentication.getName(), authorities);
             String refreshToken =
                     jwtUtil.generateRefreshToken(authentication.getName(), authorities);
+            String profileImage = memberService.getMemberProfileImage(request.getEmail());
+
             return ApiResponse.onSuccess(
                     MemberConverter.toLoginResultDTO(
-                            request.getEmail(), token, refreshToken)); // 예시로 토큰만 문자열로 반환
+                            request.getEmail(),
+                            profileImage,
+                            token,
+                            refreshToken)); // 예시로 토큰만 문자열로 반환
         } catch (Exception e) {
             throw new GeneralHandler(ErrorStatus.ID_OR_PASSWORD_WRONG);
         }
@@ -113,9 +118,11 @@ public class AuthController {
 
             // 새로운 액세스 토큰 생성
             String newAccessToken = jwtUtil.generateToken(usernameFromToken, authorities);
+            String profileImage = memberService.getMemberProfileImage(email);
 
             return ApiResponse.onSuccess(
-                    MemberConverter.toLoginResultDTO(usernameFromToken, newAccessToken, null));
+                    MemberConverter.toLoginResultDTO(
+                            usernameFromToken, profileImage, newAccessToken, null));
         } else {
             throw new GeneralHandler(ErrorStatus.INVALID_REFRESH_TOKEN);
         }

@@ -47,7 +47,7 @@ public class Track extends BaseEntity {
     @Builder
     public Track(
             String vocalUrl, String instrumentalUrl, String bassUrl, String drumsUrl, Music music) {
-        this.title = music.getTitle().split("-", 2)[1];
+        this.title = music.getTitle() + "_스템분리 결과";
         this.vocalUrl = vocalUrl;
         this.instrumentalUrl = instrumentalUrl;
         this.bassUrl = bassUrl;

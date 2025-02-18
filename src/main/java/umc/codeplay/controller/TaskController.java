@@ -1,13 +1,11 @@
 package umc.codeplay.controller;
 
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import lombok.RequiredArgsConstructor;
 
+import io.swagger.v3.oas.annotations.Hidden;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import umc.codeplay.apiPayLoad.ApiResponse;
@@ -69,6 +67,19 @@ public class TaskController {
     public ApiResponse<MemberResponseDTO.TaskProgressDTO> getTask(
             @RequestBody @Validated MemberRequestDTO.getTaskDTO request) {
         Task task = taskService.findById(request.getTaskId());
+        return ApiResponse.onSuccess(MemberConverter.toTaskProgressDTO(task));
+    }
+
+    @Hidden // TODO: 기능 완성시 @Hidden 태그만 삭제해주세요!
+    @Operation(
+            summary = "작업 진행 상황 조회",
+            description = "작업 ID를 받아 완료될 때까지 기다린 후 결과를 반환합니다. 기본 대기시간 5분, 10초마다 작업 상태확인.")
+    @GetMapping("/wait/{taskId}")
+    public ApiResponse<MemberResponseDTO.TaskProgressDTO> waitTask(
+            @PathVariable Long taskId,
+            @RequestParam(defaultValue = "300000") long timeoutMillis // 기본 5분 대기시간 + 10초마다 작업상태 체크
+            ) {
+        Task task = taskService.waitTask(taskId, timeoutMillis);
         return ApiResponse.onSuccess(MemberConverter.toTaskProgressDTO(task));
     }
 }

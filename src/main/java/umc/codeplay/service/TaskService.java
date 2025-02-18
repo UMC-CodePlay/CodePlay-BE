@@ -1,5 +1,8 @@
 package umc.codeplay.service;
 
+import java.time.Duration;
+import java.time.Instant;
+
 import org.springframework.stereotype.Service;
 
 import lombok.RequiredArgsConstructor;
@@ -72,5 +75,28 @@ public class TaskService {
                         .build();
 
         return taskRepository.save(task);
+    }
+
+    public Task waitTask(Long id, long timeoutMillis) {
+        Instant startTime = Instant.now();
+        Task task = findById(id);
+
+        while (Duration.between(startTime, Instant.now()).toMillis() < timeoutMillis) {
+
+            // complete 면 응답
+            if (task.getStatus().equals(ProcessStatus.COMPLETED)) {
+                return task;
+            }
+
+            // 3초 대기이후 다시 작업 체크
+            try {
+                Thread.sleep(10000);
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+                throw new GeneralException(ErrorStatus._INTERNAL_SERVER_ERROR);
+            }
+        }
+
+        return findById(id);
     }
 }
