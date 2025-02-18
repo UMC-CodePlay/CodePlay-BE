@@ -75,7 +75,7 @@ public class ModelService {
         }
 
         switch (config) {
-            case "vocals", "bass", "drums", "none": // TODO: 6-stems guitar, piano 테스트 후 추가
+            case "vocals", "bass", "drums", "none", "guitar", "piano":
                 break;
             default:
                 throw new GeneralException(ErrorStatus.INVALID_CONFIG);
@@ -86,6 +86,7 @@ public class ModelService {
                     queueName,
                     SQSMessageDTO.TrackMessageDTO.builder()
                             .key(music.getTitle())
+                            .musicId(music.getId())
                             .taskId(task.getId())
                             .jobType(JobType.TRACK.toString())
                             .twoStemConfig(config)
@@ -106,6 +107,7 @@ public class ModelService {
                     queueName,
                     SQSMessageDTO.HarmonyMessageDTO.builder()
                             .key(music.getTitle())
+                            .musicId(music.getId())
                             .taskId(task.getId())
                             .jobType(JobType.HARMONY.toString())
                             .build());
@@ -151,6 +153,7 @@ public class ModelService {
         Task task = taskService.addTask(newRemix);
 
         remixPayLoad.setKey(music.getTitle());
+        remixPayLoad.setMusicId(music.getId());
         remixPayLoad.setTaskId(task.getId());
         remixPayLoad.setJobType(JobType.REMIX.toString());
 
