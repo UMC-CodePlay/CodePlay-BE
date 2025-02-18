@@ -14,6 +14,8 @@ import umc.codeplay.domain.Music;
 import umc.codeplay.domain.Task;
 import umc.codeplay.dto.MemberRequestDTO;
 import umc.codeplay.dto.MemberResponseDTO;
+import umc.codeplay.dto.TaskResponseDTO;
+import umc.codeplay.repository.MemberRepository;
 import umc.codeplay.service.ModelService;
 import umc.codeplay.service.MusicService;
 import umc.codeplay.service.TaskService;
@@ -28,6 +30,7 @@ public class TaskController {
     private final MusicService musicService;
     private final ModelService modelService;
     private final TaskService taskService;
+    private final MemberRepository memberRepository;
 
     @Operation(summary = "화성분석 작업 요청", description = "음악 ID를 받아 화성분석 작업을 요청합니다.")
     @PostMapping("/harmony")
@@ -81,5 +84,18 @@ public class TaskController {
             ) {
         Task task = taskService.waitTask(taskId, timeoutMillis);
         return ApiResponse.onSuccess(MemberConverter.toTaskProgressDTO(task));
+    }
+
+    @Operation(
+            summary = "task id로 harmony, track, remix 조회",
+            description = "task id를 query parameter로 넘기고 그에 맞는 객체를 반환합니다.")
+    @GetMapping("/search")
+    public ApiResponse<TaskResponseDTO.GetByTaskIdDTO> getByTaskId(@RequestParam Long taskId) {
+
+        System.out.println("테스트중입니다");
+
+        TaskResponseDTO.GetByTaskIdDTO responseDTO = taskService.findByTaskId(taskId);
+
+        return ApiResponse.onSuccess(responseDTO);
     }
 }
