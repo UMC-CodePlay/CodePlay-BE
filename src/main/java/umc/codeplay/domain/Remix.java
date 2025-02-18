@@ -69,7 +69,7 @@ public class Remix extends BaseEntity {
             Boolean isChorusOn,
             String resultMusicUrl,
             Music music) {
-        this.title = music.getTitle().split("-", 2)[1];
+        this.title = music.getTitle() + "_리믹스 결과";
         this.scaleModulation = scaleModulation;
         this.tempoRatio = tempoRatio;
         this.reverbAmount = reverbAmount;

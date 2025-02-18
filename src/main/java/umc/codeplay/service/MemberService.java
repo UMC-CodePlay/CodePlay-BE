@@ -1,6 +1,7 @@
 package umc.codeplay.service;
 
 import java.security.InvalidParameterException;
+import java.security.SecureRandom;
 import java.util.List;
 import java.util.stream.Collectors;
 import jakarta.transaction.Transactional;
@@ -36,6 +37,17 @@ public class MemberService {
     private final MemberConverter memberConverter;
     private final TrackRepository trackRepository;
 
+    private static final String CHAR_SET =
+            "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+    private static final SecureRandom RANDOM = new SecureRandom();
+
+    public String getMemberProfileImage(String email) {
+        return memberRepository
+                .findByEmail(email)
+                .orElseThrow(() -> new GeneralHandler(ErrorStatus.MEMBER_NOT_FOUND))
+                .getProfileUrl();
+    }
+
     public Member joinMember(MemberRequestDTO.JoinDto request) {
 
         if (memberRepository.findByEmail(request.getEmail()).isPresent()) {
@@ -56,6 +68,7 @@ public class MemberService {
                     Member.builder()
                             .email(email)
                             .role(Role.USER)
+                            .password(passwordEncoder.encode(generateRandomPassword(10)))
                             .socialStatus(socialStatus)
                             .build();
             return memberRepository.save(member);
@@ -170,5 +183,14 @@ public class MemberService {
         member.encodePassword(passwordEncoder.encode(newPassword));
         memberRepository.save(member);
         return true;
+    }
+
+    public static String generateRandomPassword(int length) {
+        StringBuilder sb = new StringBuilder(length);
+        for (int i = 0; i < length; i++) {
+            int index = RANDOM.nextInt(CHAR_SET.length());
+            sb.append(CHAR_SET.charAt(index));
+        }
+        return sb.toString();
     }
 }
