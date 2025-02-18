@@ -15,8 +15,6 @@ import umc.codeplay.domain.enums.FileType;
 import umc.codeplay.dto.FileResponseDTO;
 import umc.codeplay.service.FileService;
 
-import static umc.codeplay.service.FileService.buildFilename;
-
 @RestController
 @RequestMapping("/files")
 @RequiredArgsConstructor
@@ -30,15 +28,9 @@ public class FileController {
             description = "업로드를 위한 Presigned URL 생성 - 유효시간 존재")
     @PostMapping("/upload")
     public ApiResponse<FileResponseDTO.UploadFile> generateUrl(
-            @RequestParam(value = "fileType") FileType fileType,
-            @RequestParam(value = "fileName") String fileName) {
+            @RequestParam FileType fileType, @RequestParam String fileName) {
 
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
-        String newFileName = fileType.getFolderName() + buildFilename(fileName);
-
-        Long id = fileType.processUpload(fileService, newFileName, username);
-        String uploadUrl = fileService.generatePutPresignedUrl(newFileName);
-
-        return ApiResponse.onSuccess(fileType.createResponse(uploadUrl, id));
+        return ApiResponse.onSuccess(fileService.getUploadUrl(username, fileName, fileType));
     }
 }

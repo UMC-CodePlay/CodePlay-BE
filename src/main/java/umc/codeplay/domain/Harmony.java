@@ -41,7 +41,7 @@ public class Harmony extends BaseEntity {
 
     @Builder
     private Harmony(String scale, String genre, Integer bpm, String voiceColor, Music music) {
-        this.title = music.getTitle().split("-", 2)[1];
+        this.title = music.getTitle() + "_화성분석 결과";
         this.scale = scale;
         this.genre = genre;
         this.bpm = bpm;

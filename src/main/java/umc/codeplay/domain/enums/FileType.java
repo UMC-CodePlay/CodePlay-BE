@@ -1,39 +1,29 @@
 package umc.codeplay.domain.enums;
 
 import umc.codeplay.dto.FileResponseDTO;
-import umc.codeplay.service.FileService;
 
 public enum FileType {
     AUDIO {
-        public String getFolderName() {
-            return "requestFiles/";
-        }
-
-        public Long processUpload(FileService fileService, String fileName, String username) {
-            return fileService.uploadMusic(fileName, username);
-        }
-
-        public FileResponseDTO.UploadFile createResponse(String uploadUrl, Long id) {
-            return new FileResponseDTO.UploadFile(uploadUrl, id, null);
+        @Override
+        public String buildStoragePath(Long id, String fileName) {
+            return String.format("%s%d/%s", BASE_AUDIO_PATH, id, fileName);
         }
     },
     IMAGE {
-        public String getFolderName() {
-            return "profileImgs/";
-        }
-
-        public Long processUpload(FileService fileService, String fileName, String username) {
-            return fileService.uploadProfile(fileName, username);
-        }
-
-        public FileResponseDTO.UploadFile createResponse(String uploadUrl, Long id) {
-            return new FileResponseDTO.UploadFile(uploadUrl, null, id);
+        @Override
+        public String buildStoragePath(Long id, String fileName) {
+            return String.format("%s%d/%s", BASE_IMAGE_PATH, id, fileName);
         }
     };
 
-    public abstract String getFolderName();
+    private static final String BASE_AUDIO_PATH = "requestFiles/";
+    private static final String BASE_IMAGE_PATH = "profileImgs/";
 
-    public abstract Long processUpload(FileService fileService, String fileName, String username);
+    public abstract String buildStoragePath(Long id, String fileName);
 
-    public abstract FileResponseDTO.UploadFile createResponse(String uploadUrl, Long id);
+    public FileResponseDTO.UploadFile createResponse(String uploadUrl, Long id) {
+        return this == AUDIO
+                ? new FileResponseDTO.UploadFile(uploadUrl, id, null)
+                : new FileResponseDTO.UploadFile(uploadUrl, null, id);
+    }
 }

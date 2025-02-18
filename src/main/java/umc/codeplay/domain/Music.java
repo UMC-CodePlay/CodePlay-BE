@@ -26,7 +26,8 @@ public class Music extends BaseEntity {
     @Column(nullable = false, length = 100)
     private String title;
 
-    @Column(columnDefinition = "TEXT", nullable = false)
+    @Column(columnDefinition = "TEXT")
+    @Setter
     private String musicUrl;
 
     @ManyToOne(fetch = FetchType.LAZY)
