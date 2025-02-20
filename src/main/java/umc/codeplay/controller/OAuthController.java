@@ -3,7 +3,6 @@ package umc.codeplay.controller;
 import java.util.List;
 import java.util.Map;
 
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.util.LinkedMultiValueMap;
@@ -18,7 +17,6 @@ import lombok.RequiredArgsConstructor;
 import io.swagger.v3.oas.annotations.Hidden;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import org.jetbrains.annotations.NotNull;
 import umc.codeplay.apiPayLoad.code.status.ErrorStatus;
 import umc.codeplay.apiPayLoad.exception.handler.GeneralHandler;
 import umc.codeplay.config.properties.BaseOAuthProperties;
@@ -35,9 +33,6 @@ import umc.codeplay.service.MemberService;
 @Validated
 @Tag(name = "oauth-controller", description = "외부 소셜 로그인 서비스 연동 API, JWT 토큰 헤더 포함을 필요로 하지 않습니다.")
 public class OAuthController {
-
-    @Value("${frontend.url}")
-    private static String targetOrigin;
 
     private final JwtUtil jwtUtil;
     private final RestTemplate restTemplate = new RestTemplate();
@@ -126,8 +121,9 @@ public class OAuthController {
         //                        .build());
     }
 
-    private static @NotNull String getString(
-            String serviceAccessToken, String serviceRefreshToken, String email) {
+    String targetOrigin = "https://code-play-fe.vercel.app";
+
+    private String getString(String serviceAccessToken, String serviceRefreshToken, String email) {
         String jsonData =
                 String.format(
                         "{ \"accessToken\": \"%s\", \"refreshToken\": \"%s\", \"email\": \"%s\" }",
