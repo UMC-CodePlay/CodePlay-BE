@@ -49,6 +49,10 @@ spring:
           starttls:
             enable: true
 
+frontend:
+  url:
+    ${S3_BUCKET}
+
 s3:
   bucket: ${S3_BUCKET}
 
