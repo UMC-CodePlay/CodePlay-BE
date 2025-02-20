@@ -14,6 +14,7 @@ public class SQSMessageDTO {
     @AllArgsConstructor
     public static class HarmonyMessageDTO {
         String key;
+        Long musicId;
         Long taskId;
         String jobType;
     }
@@ -24,6 +25,7 @@ public class SQSMessageDTO {
     @AllArgsConstructor
     public static class TrackMessageDTO {
         String key;
+        Long musicId;
         Long taskId;
         String jobType;
 
@@ -34,6 +36,7 @@ public class SQSMessageDTO {
     @Setter
     public static class RemixMessageDTO {
         String key;
+        Long musicId;
         Long taskId;
         String jobType;
 
