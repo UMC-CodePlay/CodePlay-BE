@@ -8,12 +8,11 @@ spring:
     password: ${SPRING_MAIL_PASSWORD}
     protocol: smtp
     properties:
-        mail:
-          smtp:
-            auth: true
-            starttls:
-              enable: true
-
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
 
   config:
     import:
