@@ -1,7 +1,9 @@
 package umc.codeplay.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
@@ -90,17 +92,23 @@ public class MemberController {
 
         // 현재 로그인한 사용자 검색
         String email = userDetails.getUsername();
+        Member member =
+                memberRepository
+                        .findByEmail(email)
+                        .orElseThrow(() -> new RuntimeException("사용자를 찾을 수 없습니다."));
 
-        Optional<Member> optionalMember = memberRepository.findByEmail(email);
-        if (optionalMember.isEmpty()) {
-            throw new RuntimeException("사용자를 찾을 수 없습니다.");
+        List<Music> musics = musicRepository.findAllByTitle(musicTitle);
+
+        List<MemberResponseDTO.GetMyHarmonyDTO> harmonyDTOs = new ArrayList<>();
+        List<MemberResponseDTO.GetMyTrackDTO> trackDTOs = new ArrayList<>();
+
+        for (Music music : musics) {
+            harmonyDTOs.addAll(memberService.getHarmonyByMusicTitle(member, music));
+            trackDTOs.addAll(memberService.getTrackByMusicTitle(member, music));
         }
-        Member member = optionalMember.get();
-
-        Music music = musicRepository.findByTitle(musicTitle);
 
         MemberResponseDTO.GetAllByMusicTitleDTO results =
-                memberService.getAllByMusicTitle(member, music);
+                new MemberResponseDTO.GetAllByMusicTitleDTO(harmonyDTOs, trackDTOs);
 
         return ApiResponse.onSuccess(results);
     }
@@ -110,19 +118,21 @@ public class MemberController {
     public ApiResponse<List<MemberResponseDTO.GetMyHarmonyDTO>> getHarmonyByMusicTitle(
             @AuthenticationPrincipal CustomUserDetails userDetails,
             @RequestParam String musicTitle) {
-        // 현재 로그인한 사용자 검색
         String email = userDetails.getUsername();
+        Member member =
+                memberRepository
+                        .findByEmail(email)
+                        .orElseThrow(() -> new RuntimeException("사용자를 찾을 수 없습니다."));
 
-        Optional<Member> optionalMember = memberRepository.findByEmail(email);
-        if (optionalMember.isEmpty()) {
-            throw new RuntimeException("사용자를 찾을 수 없습니다.");
-        }
-        Member member = optionalMember.get();
-
-        Music music = musicRepository.findByTitle(musicTitle);
-
+        List<Music> musics = musicRepository.findAllByTitle(musicTitle);
         List<MemberResponseDTO.GetMyHarmonyDTO> results =
-                memberService.getHarmonyByMusicTitle(member, music);
+                musics.stream()
+                        .flatMap(
+                                music ->
+                                        memberService
+                                                .getHarmonyByMusicTitle(member, music)
+                                                .stream())
+                        .collect(Collectors.toList());
 
         return ApiResponse.onSuccess(results);
     }
@@ -132,19 +142,18 @@ public class MemberController {
     public ApiResponse<List<MemberResponseDTO.GetMyTrackDTO>> getTrackByMusicTitle(
             @AuthenticationPrincipal CustomUserDetails userDetails,
             @RequestParam String musicTitle) {
-        // 현재 로그인한 사용자 검색
         String email = userDetails.getUsername();
+        Member member =
+                memberRepository
+                        .findByEmail(email)
+                        .orElseThrow(() -> new RuntimeException("사용자를 찾을 수 없습니다."));
 
-        Optional<Member> optionalMember = memberRepository.findByEmail(email);
-        if (optionalMember.isEmpty()) {
-            throw new RuntimeException("사용자를 찾을 수 없습니다.");
-        }
-        Member member = optionalMember.get();
-
-        Music music = musicRepository.findByTitle(musicTitle);
-
+        List<Music> musics = musicRepository.findAllByTitle(musicTitle);
         List<MemberResponseDTO.GetMyTrackDTO> results =
-                memberService.getTrackByMusicTitle(member, music);
+                musics.stream()
+                        .flatMap(
+                                music -> memberService.getTrackByMusicTitle(member, music).stream())
+                        .collect(Collectors.toList());
 
         return ApiResponse.onSuccess(results);
     }
