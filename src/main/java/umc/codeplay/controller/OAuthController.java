@@ -3,6 +3,7 @@ package umc.codeplay.controller;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.util.LinkedMultiValueMap;
@@ -17,7 +18,7 @@ import lombok.RequiredArgsConstructor;
 import io.swagger.v3.oas.annotations.Hidden;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import umc.codeplay.apiPayLoad.ApiResponse;
+import org.jetbrains.annotations.NotNull;
 import umc.codeplay.apiPayLoad.code.status.ErrorStatus;
 import umc.codeplay.apiPayLoad.exception.handler.GeneralHandler;
 import umc.codeplay.config.properties.BaseOAuthProperties;
@@ -25,7 +26,6 @@ import umc.codeplay.config.properties.GoogleOAuthProperties;
 import umc.codeplay.config.properties.KakaoOAuthProperties;
 import umc.codeplay.domain.Member;
 import umc.codeplay.domain.enums.SocialStatus;
-import umc.codeplay.dto.MemberResponseDTO;
 import umc.codeplay.jwt.JwtUtil;
 import umc.codeplay.service.MemberService;
 
@@ -35,6 +35,9 @@ import umc.codeplay.service.MemberService;
 @Validated
 @Tag(name = "oauth-controller", description = "외부 소셜 로그인 서비스 연동 API, JWT 토큰 헤더 포함을 필요로 하지 않습니다.")
 public class OAuthController {
+
+    @Value("${frontend.url}")
+    private static String targetOrigin;
 
     private final JwtUtil jwtUtil;
     private final RestTemplate restTemplate = new RestTemplate();
@@ -65,7 +68,7 @@ public class OAuthController {
 
     @Hidden
     @GetMapping("/callback/{provider}")
-    public ApiResponse<MemberResponseDTO.LoginResultDTO> OAuthCallback(
+    public ResponseEntity<String> OAuthCallback(
             @RequestParam("code") String code, @PathVariable("provider") String provider) {
         BaseOAuthProperties properties =
                 switch (provider) {
@@ -110,13 +113,41 @@ public class OAuthController {
         String serviceAccessToken = jwtUtil.generateToken(email, authorities);
         String serviceRefreshToken = jwtUtil.generateRefreshToken(email, authorities);
 
+        String html = getString(serviceAccessToken, serviceRefreshToken, email);
+
+        return ResponseEntity.ok().contentType(MediaType.TEXT_HTML).body(html);
+
         // (6) 최종적으로 JWT(액세스/리프레시)를 프론트에 응답
-        return ApiResponse.onSuccess(
-                MemberResponseDTO.LoginResultDTO.builder()
-                        .email(email)
-                        .token(serviceAccessToken)
-                        .refreshToken(serviceRefreshToken)
-                        .build());
+        //        return ApiResponse.onSuccess(
+        //                MemberResponseDTO.LoginResultDTO.builder()
+        //                        .email(email)
+        //                        .token(serviceAccessToken)
+        //                        .refreshToken(serviceRefreshToken)
+        //                        .build());
+    }
+
+    private static @NotNull String getString(
+            String serviceAccessToken, String serviceRefreshToken, String email) {
+        String jsonData =
+                String.format(
+                        "{ \"accessToken\": \"%s\", \"refreshToken\": \"%s\", \"email\": \"%s\" }",
+                        serviceAccessToken, serviceRefreshToken, email);
+
+        return """
+            <!DOCTYPE html>
+            <html>
+              <body>
+                <script>
+                  (function() {
+                    var data = %s;
+                    window.opener.postMessage(data, "%s");
+                    window.close();
+                  })();
+                </script>
+              </body>
+            </html>
+            """
+                .formatted(jsonData, targetOrigin);
     }
 
     private Map<String, Object> requestOAuthToken(String code, BaseOAuthProperties properties) {
