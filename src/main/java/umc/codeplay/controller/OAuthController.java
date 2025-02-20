@@ -3,6 +3,7 @@ package umc.codeplay.controller;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.util.LinkedMultiValueMap;
@@ -33,6 +34,9 @@ import umc.codeplay.service.MemberService;
 @Validated
 @Tag(name = "oauth-controller", description = "외부 소셜 로그인 서비스 연동 API, JWT 토큰 헤더 포함을 필요로 하지 않습니다.")
 public class OAuthController {
+
+    @Value("${frontend.url}")
+    private String targetOrigin;
 
     private final JwtUtil jwtUtil;
     private final RestTemplate restTemplate = new RestTemplate();
@@ -120,8 +124,6 @@ public class OAuthController {
         //                        .refreshToken(serviceRefreshToken)
         //                        .build());
     }
-
-    String targetOrigin = "https://code-play-fe.vercel.app";
 
     private String getString(String serviceAccessToken, String serviceRefreshToken, String email) {
         String jsonData =
