@@ -10,5 +10,5 @@ public interface MusicRepository extends JpaRepository<Music, Long> {
     // 제목으로 음원 찾기
     Music findByTitle(String title);
 
-    List<Music> findAllByTitle(String title);
+    List<Music> findAllByTitleContaining(String title);
 }

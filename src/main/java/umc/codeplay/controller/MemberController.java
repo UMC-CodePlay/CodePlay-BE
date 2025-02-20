@@ -97,7 +97,7 @@ public class MemberController {
                         .findByEmail(email)
                         .orElseThrow(() -> new RuntimeException("사용자를 찾을 수 없습니다."));
 
-        List<Music> musics = musicRepository.findAllByTitle(musicTitle);
+        List<Music> musics = musicRepository.findAllByTitleContaining(musicTitle);
 
         List<MemberResponseDTO.GetMyHarmonyDTO> harmonyDTOs = new ArrayList<>();
         List<MemberResponseDTO.GetMyTrackDTO> trackDTOs = new ArrayList<>();
@@ -124,7 +124,7 @@ public class MemberController {
                         .findByEmail(email)
                         .orElseThrow(() -> new RuntimeException("사용자를 찾을 수 없습니다."));
 
-        List<Music> musics = musicRepository.findAllByTitle(musicTitle);
+        List<Music> musics = musicRepository.findAllByTitleContaining(musicTitle);
         List<MemberResponseDTO.GetMyHarmonyDTO> results =
                 musics.stream()
                         .flatMap(
@@ -148,7 +148,7 @@ public class MemberController {
                         .findByEmail(email)
                         .orElseThrow(() -> new RuntimeException("사용자를 찾을 수 없습니다."));
 
-        List<Music> musics = musicRepository.findAllByTitle(musicTitle);
+        List<Music> musics = musicRepository.findAllByTitleContaining(musicTitle);
         List<MemberResponseDTO.GetMyTrackDTO> results =
                 musics.stream()
                         .flatMap(
