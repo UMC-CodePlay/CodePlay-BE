@@ -2,6 +2,7 @@ package umc.codeplay.service;
 
 import java.security.InvalidParameterException;
 import java.security.SecureRandom;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 import jakarta.transaction.Transactional;
@@ -133,22 +134,16 @@ public class MemberService {
                 .collect(Collectors.toList());
     }
 
-    public MemberResponseDTO.GetAllByMusicTitleDTO getAllByMusicTitle(Member member, Music music) {
+    public MemberResponseDTO.GetAllByMusicTitleDTO getAllByMusicTitle(
+            Member member, List<Music> musics) {
+        List<MemberResponseDTO.GetMyHarmonyDTO> harmonyDTOs = new ArrayList<>();
+        List<MemberResponseDTO.GetMyTrackDTO> trackDTOs = new ArrayList<>();
 
-        List<Harmony> harmonies = harmonyRepository.findByMusicAndMember(member, music);
-        List<Track> tracks = trackRepository.findByMusicAndMember(member, music);
+        for (Music music : musics) {
+            harmonyDTOs.addAll(getHarmonyByMusicTitle(member, music));
+            trackDTOs.addAll(getTrackByMusicTitle(member, music));
+        }
 
-        List<MemberResponseDTO.GetMyHarmonyDTO> harmonyDTOs =
-                harmonies.stream()
-                        .map(harmony -> memberConverter.toGetMyHarmonyDTO(harmony, member))
-                        .collect(Collectors.toList());
-
-        List<MemberResponseDTO.GetMyTrackDTO> trackDTOs =
-                tracks.stream()
-                        .map(track -> memberConverter.toGetMyTrackDTO(track, member))
-                        .collect(Collectors.toList());
-
-        // DTO를 하나의 객체로 묶어서 반환
         return new MemberResponseDTO.GetAllByMusicTitleDTO(harmonyDTOs, trackDTOs);
     }
 
