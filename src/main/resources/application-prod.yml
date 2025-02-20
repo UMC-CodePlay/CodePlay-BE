@@ -48,6 +48,9 @@ spring:
         access-key: ${AWS_ACCESS_KEY_ID}
         secret-key: ${AWS_SECRET_ACCESS_KEY}
 
+frontend:
+  url: ${FRONTEND_URL}
+
 s3:
   bucket: ${S3_BUCKET}
 
