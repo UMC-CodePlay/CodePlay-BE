@@ -18,7 +18,6 @@ import lombok.RequiredArgsConstructor;
 import io.swagger.v3.oas.annotations.Hidden;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import org.jetbrains.annotations.NotNull;
 import umc.codeplay.apiPayLoad.code.status.ErrorStatus;
 import umc.codeplay.apiPayLoad.exception.handler.GeneralHandler;
 import umc.codeplay.config.properties.BaseOAuthProperties;
@@ -37,7 +36,7 @@ import umc.codeplay.service.MemberService;
 public class OAuthController {
 
     @Value("${frontend.url}")
-    private static String targetOrigin;
+    private String targetOrigin;
 
     private final JwtUtil jwtUtil;
     private final RestTemplate restTemplate = new RestTemplate();
@@ -126,8 +125,7 @@ public class OAuthController {
         //                        .build());
     }
 
-    private static @NotNull String getString(
-            String serviceAccessToken, String serviceRefreshToken, String email) {
+    private String getString(String serviceAccessToken, String serviceRefreshToken, String email) {
         String jsonData =
                 String.format(
                         "{ \"accessToken\": \"%s\", \"refreshToken\": \"%s\", \"email\": \"%s\" }",
