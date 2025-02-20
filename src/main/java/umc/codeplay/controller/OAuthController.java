@@ -17,7 +17,7 @@ import lombok.RequiredArgsConstructor;
 import io.swagger.v3.oas.annotations.Hidden;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import umc.codeplay.apiPayLoad.ApiResponse;
+import org.jetbrains.annotations.NotNull;
 import umc.codeplay.apiPayLoad.code.status.ErrorStatus;
 import umc.codeplay.apiPayLoad.exception.handler.GeneralHandler;
 import umc.codeplay.config.properties.BaseOAuthProperties;
@@ -25,7 +25,6 @@ import umc.codeplay.config.properties.GoogleOAuthProperties;
 import umc.codeplay.config.properties.KakaoOAuthProperties;
 import umc.codeplay.domain.Member;
 import umc.codeplay.domain.enums.SocialStatus;
-import umc.codeplay.dto.MemberResponseDTO;
 import umc.codeplay.jwt.JwtUtil;
 import umc.codeplay.service.MemberService;
 
@@ -65,7 +64,7 @@ public class OAuthController {
 
     @Hidden
     @GetMapping("/callback/{provider}")
-    public ApiResponse<MemberResponseDTO.LoginResultDTO> OAuthCallback(
+    public ResponseEntity<String> OAuthCallback(
             @RequestParam("code") String code, @PathVariable("provider") String provider) {
         BaseOAuthProperties properties =
                 switch (provider) {
@@ -110,13 +109,42 @@ public class OAuthController {
         String serviceAccessToken = jwtUtil.generateToken(email, authorities);
         String serviceRefreshToken = jwtUtil.generateRefreshToken(email, authorities);
 
+        String html = getString(serviceAccessToken, serviceRefreshToken, email);
+
+        return ResponseEntity.ok().contentType(MediaType.TEXT_HTML).body(html);
+
         // (6) 최종적으로 JWT(액세스/리프레시)를 프론트에 응답
-        return ApiResponse.onSuccess(
-                MemberResponseDTO.LoginResultDTO.builder()
-                        .email(email)
-                        .token(serviceAccessToken)
-                        .refreshToken(serviceRefreshToken)
-                        .build());
+        //        return ApiResponse.onSuccess(
+        //                MemberResponseDTO.LoginResultDTO.builder()
+        //                        .email(email)
+        //                        .token(serviceAccessToken)
+        //                        .refreshToken(serviceRefreshToken)
+        //                        .build());
+    }
+
+    private static @NotNull String getString(
+            String serviceAccessToken, String serviceRefreshToken, String email) {
+        String jsonData =
+                String.format(
+                        "{ \"accessToken\": \"%s\", \"refreshToken\": \"%s\", \"email\": \"%s\" }",
+                        serviceAccessToken, serviceRefreshToken, email);
+
+        String targetOrigin = "https://my-frontend.com"; // 실제 프론트엔드 도메인
+        return """
+            <!DOCTYPE html>
+            <html>
+              <body>
+                <script>
+                  (function() {
+                    var data = %s;
+                    window.opener.postMessage(data, "%s");
+                    window.close();
+                  })();
+                </script>
+              </body>
+            </html>
+            """
+                .formatted(jsonData, targetOrigin);
     }
 
     private Map<String, Object> requestOAuthToken(String code, BaseOAuthProperties properties) {
