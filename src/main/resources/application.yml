@@ -1,18 +1,6 @@
 spring:
   application:
     name: codeplay
-  mail:
-    host: smtp.gmail.com
-    port: 587
-    username: ${SPRING_MAIL_USERNAME}  # 이메일 계정
-    password: ${SPRING_MAIL_PASSWORD}
-    protocol: smtp
-    properties:
-      mail:
-        smtp:
-          auth: true
-          starttls:
-            enable: true
 
   config:
     import:
@@ -39,6 +27,19 @@ spring:
         format_sql: true
         use_sql_comments: true
         default_batch_fetch_size: 1000  # 배치 크기 설정 (성능 최적화)
+
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: ${SPRING_MAIL_USERNAME}  # 이메일 계정
+    password: ${SPRING_MAIL_PASSWORD}
+    protocol: smtp
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
 
   cloud:
     aws:
