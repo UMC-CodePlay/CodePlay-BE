@@ -51,7 +51,7 @@ spring:
 
 frontend:
   url:
-    ${S3_BUCKET}
+    ${FRONTEND_URL}
 
 s3:
   bucket: ${S3_BUCKET}
